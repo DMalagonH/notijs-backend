@@ -7,9 +7,11 @@ var express = require('express');
 var app = module.exports = express();
 var params = require("./config/params");
 
-app.get('/', function(req, res){   
-   res.send('NOTIJS'); 
-});
+/**
+* Routes
+*/
+var notice = require("./modules/notice");
+app.use(notice);
 
 
 if (!module.parent) {
