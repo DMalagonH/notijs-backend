@@ -49,7 +49,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-09-03 12:51:00",
 			"img":		"/imgs/image.jpg",
 			"url":		"http://www.google.com",
-			"user_id":	"1467",
+			"user_id":	1467,
 			"read":		false
 		},
 		{
@@ -59,7 +59,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-09-03 13:01:00",
 			"img":		null,
 			"url":		"/url/a/aplicacion",
-			"user_id":	"1467",
+			"user_id":	1467,
 			"read":		true
 		},
 		{
@@ -69,7 +69,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-09-03 13:10:00",
 			"img":		"http://url/de/la/imagen",
 			"url":		null,
-			"user_id":	"1467",
+			"user_id":	1467,
 			"read":		true
 		},
 	]

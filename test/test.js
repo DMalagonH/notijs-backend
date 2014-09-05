@@ -37,7 +37,7 @@ describe("Listado de notificaciones [/notas/1]", function(){
                     expect(notice).to.have.property('datetime');
                     expect(notice).to.have.property('img');
                     expect(notice).to.have.property('url');
-                    expect(notice).to.have.property('user_id', '1');
+                    expect(notice).to.have.property('user_id', 1);
                     expect(notice).to.have.property('read');
                 });
 

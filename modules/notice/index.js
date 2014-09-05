@@ -8,9 +8,9 @@ var app = express();
 
 app.get('/notices/:user_id/:num_items?', function(req, res){  
 
-    var user_id = req.params.user_id;
+    var user_id = parseInt(req.params.user_id);
     // set number of items to get. default is 10
-    var num_items = req.params.num_items || 10;
+    var num_items = parseInt(req.params.num_items) || 10;
     
 	var notices = [
 		{
