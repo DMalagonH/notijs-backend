@@ -1,12 +1,17 @@
 /**
-* Module dependencies
-*/
+ * Module dependencies
+ */
 var express = require('express');
+var _ = require("lodash");
 var app = express();
 
-app.get('/notices/:user_id', function(req, res){  
 
-	var user_id = req.params.user_id;
+app.get('/notices/:user_id/:num_items?', function(req, res){  
+
+    var user_id = req.params.user_id;
+    // set number of items to get. default is 10
+    var num_items = req.params.num_items || 10;
+    
 	var notices = [
 		{
 			"_id":		"1654sdfssk6",

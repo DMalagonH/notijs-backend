@@ -40,7 +40,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 ### Consultar notificaciones del usuario
 	
-	Solicitud [POST] /notice/:user_id
+	Solicitud [POST] /notice/:user_id/:num_items?
 	[
 		{
 			"_id":		"1654sdfssk6",
