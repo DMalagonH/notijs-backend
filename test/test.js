@@ -5,7 +5,7 @@ var _ = require('lodash');
 
 request = request(api);
 
-describe("Listado de notificaciones [/notas/1]", function(){
+describe("Listados de notificaciones", function(){
 
 	it("Deberia traer la lista completa de notificaciones del usuario [/notices/1]", function(done){
 		request
@@ -44,4 +44,42 @@ describe("Listado de notificaciones [/notas/1]", function(){
 				done(err);
 			});
 	});
+
+	it("Deberia traer la lista de 10 notificaciones del usuario [/notices/1/10]", function(done){
+		request
+			.get("/notices/1/10")
+			.set('Accept', 'application/json')
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+			.end(function(err, res){
+
+				var body = res.body;
+				var notices;
+
+				// Validar que exista la propiedad notices
+				expect(body).to.have.property('notices');	
+				notices = body.notices;
+
+				// Validar que notices sea un array
+				expect(notices).to.be.an('array');
+
+				// Validar que sean 10 notificaciones
+				expect(notices).to.have.length(10);
+    
+                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
+                _.forEach(notices, function(notice){
+                    expect(notice).to.have.property('_id');
+                    expect(notice).to.have.property('title');
+                    expect(notice).to.have.property('body');
+                    expect(notice).to.have.property('datetime');
+                    expect(notice).to.have.property('img');
+                    expect(notice).to.have.property('url');
+                    expect(notice).to.have.property('user_id', 1);
+                    expect(notice).to.have.property('read');
+                });
+
+				done(err);
+			});
+	});
 });
+

@@ -43,7 +43,80 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
 			"user_id":	user_id,
 			"read":		true
 		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
+		{
+			"_id":		"5d5a6fa657e4",
+			"title":	"Título tercera notificación",
+			"body":		"Contenido de la notificación",
+			"datetime":	"2014-09-03 13:10:00",
+			"img":		"http://url/de/la/imagen",
+			"url":		null,
+			"user_id":	user_id,
+			"read":		true
+		},
 	]
+
+	// Obtiene los x primeros elementos del array
+	notices = notices.splice(0, num_items);
 
 	res
 		.status(200)
