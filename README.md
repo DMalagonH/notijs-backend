@@ -84,7 +84,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"title":	"Nueva notificación",
 			"body":		"Contenido de la nueva notificación",
 			"img":		"/imgs/image.jpg",							//Opcional
-			"url":		"http://url/de/la/notificación"				//Opcional
+			"url":		"http://url/de/la/notificación",			//Opcional
 			"user_id":	123	
 		}
 	}
@@ -106,7 +106,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 ### Marcar notificación como leída
 	Request [POST] /notice/read
 	{
-		"notice":{
+		"mark_as_read":{
 			"_id":		"16a54asddfs",
 			"user_id":	123,
 		}
@@ -118,7 +118,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 ### Marcar todas las notificaciones como leidas
 	Request [POST] /notice/read
 	{
-		"notice":{
+		"mark_as_read":{
 			"user_id":	123,
 		}
 	}
@@ -129,7 +129,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 ### Eliminar una notificación
 	Request [DELETE] /notice/delete
 	{
-		"notice":{
+		"delete":{
 			"_id":		"16a54asddfs",
 			"user_id":	123,
 		}
@@ -140,9 +140,42 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 ### Eliminar todas las notificaciones
 	Request [DELETE] /notice/delete
 	{
-		"notice":{
+		"delete":{
 			"user_id":	123,
 		}
 	}
 	Response code:
 	204
+
+### Enviar notificación instantanea a todos los usuarios
+	Request [POST] /notice/flash
+	{
+		"notice":{
+			"title":	"Nueva notificación",
+			"body":		"Contenido de la nueva notificación",
+			"img":		"/imgs/image.jpg",							//Opcional
+			"url":		"http://url/de/la/notificación"				//Opcional
+		}
+	}
+	Response code:
+	200
+
+
+### Enviar notificación instantanea a algunos usuarios
+	Request [POST] /notice/flash
+	{
+		"notice":{
+			"title":	"Nueva notificación",
+			"body":		"Contenido de la nueva notificación",
+			"img":		"/imgs/image.jpg",							//Opcional
+			"url":		"http://url/de/la/notificación"				//Opcional
+		},
+		"users":[
+			1,
+			2,
+			3,
+			...
+		]
+	}
+	Response code:
+	200
