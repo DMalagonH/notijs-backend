@@ -38,9 +38,11 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 | `500`  | Error de servidor                                            |
 | `503`  | Servicio no disponible                                       |
 
+
 ### Consultar notificaciones del usuario
 	
-	Solicitud [POST] /notice/:user_id/:num_items?
+	Request [GET] /notice/:user_id/:num_items?
+	Response:
 	[
 		{
 			"_id":		"1654sdfssk6",
@@ -73,3 +75,74 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"read":		true
 		},
 	]
+
+
+### Crear notificaciones
+	Request [POST] /notice
+	{
+		"notice":{
+			"title":	"Nueva notificación",
+			"body":		"Contenido de la nueva notificación",
+			"img":		"/imgs/image.jpg",							//Opcional
+			"url":		"http://url/de/la/notificación"				//Opcional
+			"user_id":	123	
+		}
+	}
+	Response:
+	{
+		"notice":{
+			"_id":		"16a54asddfs",
+			"title":	"Nueva notificación",
+			"body":		"Contenido de la nueva notificación",
+			"datetime":	"2014-09-03 13:00:00",
+			"img":		"/imgs/image.jpg",
+			"url":		"http://url/de/la/notificación",
+			"user_id":	123,
+			"read":		false
+		}
+	}
+
+
+### Marcar notificación como leída
+	Request [POST] /notice/read
+	{
+		"notice":{
+			"_id":		"16a54asddfs",
+			"user_id":	123,
+		}
+	}
+	Response code:
+	200
+
+
+### Marcar todas las notificaciones como leidas
+	Request [POST] /notice/read
+	{
+		"notice":{
+			"user_id":	123,
+		}
+	}
+	Response code:
+	200
+
+
+### Eliminar una notificación
+	Request [DELETE] /notice/delete
+	{
+		"notice":{
+			"_id":		"16a54asddfs",
+			"user_id":	123,
+		}
+	}
+	Response code:
+	204
+
+### Eliminar todas las notificaciones
+	Request [DELETE] /notice/delete
+	{
+		"notice":{
+			"user_id":	123,
+		}
+	}
+	Response code:
+	204
