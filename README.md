@@ -108,7 +108,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	{
 		"mark_as_read":{
 			"_id":		"16a54asddfs",
-			"user_id":	123,
+			"user_id":	123
 		}
 	}
 	Response code:

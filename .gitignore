@@ -1,3 +1,4 @@
 /node_modules
 params.js
 /nbproject/
+*.fuse_hidden*

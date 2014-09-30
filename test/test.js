@@ -124,3 +124,37 @@ describe("Crear notificación", function(){
         	});
 	});
 });
+
+describe("Marcar notificación como leída", function(){
+
+	it("Deberia marcar una notificación como leida POST [/notice/read]", function(done){
+		var data = {
+			"mark_as_read":{
+				"_id":		"16a54asddfs",
+				"user_id":  1,
+			}
+		};
+
+		request.post("/notice/read")
+			.send(data)
+        	.expect(200)
+        	.end(function(err, res) {
+        		done(err);
+        	});
+	});
+
+	it("Deberia marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
+		var data = {
+			"mark_as_read":{
+				"user_id":  1,
+			}
+		};
+
+		request.post("/notice/read")
+			.send(data)
+        	.expect(200)
+        	.end(function(err, res) {
+        		done(err);
+        	});
+	});
+});

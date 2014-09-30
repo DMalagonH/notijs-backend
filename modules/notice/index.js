@@ -150,4 +150,15 @@ app.post("/notice", function(req, res){
 		});
 });
 
+/*
+ * Función para marcar notificaciones como leídas
+ */
+app.post("/notice/read", function(req, res){
+	var data = req.body;
+
+	//console.log(data);
+
+	res.status(200).send();
+});
+
 module.exports = app;
