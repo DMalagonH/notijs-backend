@@ -3,9 +3,13 @@
  */
 var express = require('express');
 var _ = require("lodash");
+require("date-format-lite");
+
 var app = express();
 
-
+/**
+ * Función para enlistar notificaciones
+ */
 app.get('/notices/:user_id/:num_items?', function(req, res){  
 
     var user_id = parseInt(req.params.user_id);
@@ -124,6 +128,26 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
 	    .json({
 	      notices: notices
 	    });
+});
+
+/*
+ * Función para crear una notificacion
+ */
+app.post("/notice", function(req, res){
+	var data = req.body;
+	var notice = data.notice;
+
+	var date = new Date();
+
+	notice._id = Date.now();
+	notice.datetime = date.format("YYYY-MM-DD hh:mm:ss");
+	notice.read = false;
+
+	res.status(201)
+		.set('Content-Type','application/json')
+		.json({
+			"notice": notice
+		});
 });
 
 module.exports = app;

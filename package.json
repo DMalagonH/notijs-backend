@@ -23,6 +23,7 @@
   "homepage": "https://github.com/DMalagonH/notijs",
   "dependencies": {
     "body-parser": "^1.6.7",
+    "date-format-lite": "^0.5.0",
     "express": "^4.8.6",
     "lodash": "^2.4.1"
   },

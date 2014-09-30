@@ -5,7 +5,11 @@ var express = require('express');
 
 
 var app = module.exports = express();
+var bodyParser = require('body-parser');
 var params = require("./config/params");
+
+// parse json requests
+app.use(bodyParser.json('application/json'));
 
 /**
 * Routes

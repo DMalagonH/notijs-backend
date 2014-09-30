@@ -7,7 +7,7 @@ request = request(api);
 
 describe("Listados de notificaciones", function(){
 
-	it("Deberia traer la lista completa de notificaciones del usuario [/notices/1]", function(done){
+	it("Deberia traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
 		request
 			.get("/notices/1")
 			.set('Accept', 'application/json')
@@ -45,7 +45,7 @@ describe("Listados de notificaciones", function(){
 			});
 	});
 
-	it("Deberia traer la lista de 10 notificaciones del usuario [/notices/1/10]", function(done){
+	it("Deberia traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
 		request
 			.get("/notices/1/10")
 			.set('Accept', 'application/json')
@@ -83,3 +83,44 @@ describe("Listados de notificaciones", function(){
 	});
 });
 
+describe("Crear notificación", function(){
+
+	it("Deberia crear una notificación POST [/notice]", function(done){
+		var data = {
+			"notice":{
+				"title": 	"Nueva notificación",
+				"body": 	"Contenido de la nueva notificación",
+				"img":		"/imgs/image.jpg",
+				"url": 		"http://google.com",
+				"user_id": 	1	
+			}
+		}
+
+		request
+			.post("/notice")
+			.set('Accept', 'application/json')
+        	.send(data)
+        	.expect(201)
+        	.expect('Content-Type', /application\/json/)
+        	.end(function(err, res) {
+    			var body = res.body;
+
+    			// Verificar que la notificación existe en la respuesta
+    			expect(body).to.have.property("notice");
+
+    			var notice = body.notice;
+
+    			// Verificar que la notificación tiene todas las propiedades que se enviaron
+    			expect(notice).to.have.property("title", data.notice.title);
+    			expect(notice).to.have.property("body", data.notice.body);
+    			expect(notice).to.have.property("img", data.notice.img);
+    			expect(notice).to.have.property("url", data.notice.url);
+    			expect(notice).to.have.property("user_id", data.notice.user_id);
+    			expect(notice).to.have.property("read", false);
+    			expect(notice).to.have.property("datetime");
+    			expect(notice).to.have.property("_id");
+    			
+    			done(err);
+        	});
+	});
+});
