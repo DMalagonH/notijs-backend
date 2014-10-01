@@ -130,7 +130,7 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
 	    });
 });
 
-/*
+/**
  * Función para crear una notificacion
  */
 app.post("/notice", function(req, res){
@@ -150,7 +150,7 @@ app.post("/notice", function(req, res){
 		});
 });
 
-/*
+/**
  * Función para marcar notificaciones como leídas
  */
 app.post("/notice/read", function(req, res){
@@ -167,9 +167,21 @@ app.post("/notice/read", function(req, res){
 app.delete("/notice", function(req, res){
 	var data = req.body;
 
-	console.log(data);
+	//console.log(data);
 
 	res.status(204).send();
 });
+
+/**
+ * Función para enviar notificaciones instantáneas
+ */
+app.post("/notice/flash", function(req, res){
+	var data = req.body;
+
+	//console.log(data);
+
+	res.status(200).send();
+});
+
 
 module.exports = app;

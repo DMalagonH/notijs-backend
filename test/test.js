@@ -176,7 +176,7 @@ describe("Eliminar notificaciones", function(){
         	});
 	});
 
-	it.only("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
+	it("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
 		var data = {
 			"delete":{
 				"user_id":	1
@@ -187,6 +187,51 @@ describe("Eliminar notificaciones", function(){
 			.send(data)
 			.expect(204)
 			.end(function(err, res) {
+        		done(err);
+        	});
+	});
+});
+
+describe("Enviar notificaciones instantáneas", function(){
+
+	it("Debería enviar una notificación instantánea a todos los usuarios", function(done){
+		var data = {
+			"notice":{
+				"title": 	"Nueva notificación",
+				"body": 	"Contenido de la nueva notificación",
+				"img":		"/imgs/image.jpg",
+				"url": 		"http://google.com"
+			}
+		};
+
+		request
+			.post("/notice/flash")
+			.set('Accept', 'application/json')
+        	.send(data)
+        	.expect(200)
+        	.end(function(err, res) {
+        		done(err);
+        	});
+	});
+
+
+	it("Debería enviar una notificación instantánea a usuarios específicos", function(done){
+		var data = {
+			"notice":{
+				"title": 	"Nueva notificación",
+				"body": 	"Contenido de la nueva notificación",
+				"img":		"/imgs/image.jpg",
+				"url": 		"http://google.com"
+			},
+			"users": [1, 2, 3]
+		};
+
+		request
+			.post("/notice/flash")
+			.set('Accept', 'application/json')
+        	.send(data)
+        	.expect(200)
+        	.end(function(err, res) {
         		done(err);
         	});
 	});
