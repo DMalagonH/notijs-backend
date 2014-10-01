@@ -138,7 +138,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	204
 
 ### Eliminar todas las notificaciones
-	Request [DELETE] /notice/delete
+	Request [DELETE] /notice
 	{
 		"delete":{
 			"user_id":	123,

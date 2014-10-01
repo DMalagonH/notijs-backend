@@ -1,13 +1,12 @@
 var request = require('supertest');
 var api = require('../index.js');
 var _ = require('lodash');
-//var host = process.env.API_TEST_HOST || api;
 
 request = request(api);
 
 describe("Listados de notificaciones", function(){
 
-	it("Deberia traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
+	it("Debería traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
 		request
 			.get("/notices/1")
 			.set('Accept', 'application/json')
@@ -45,7 +44,7 @@ describe("Listados de notificaciones", function(){
 			});
 	});
 
-	it("Deberia traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
+	it("Debería traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
 		request
 			.get("/notices/1/10")
 			.set('Accept', 'application/json')
@@ -85,7 +84,7 @@ describe("Listados de notificaciones", function(){
 
 describe("Crear notificación", function(){
 
-	it("Deberia crear una notificación POST [/notice]", function(done){
+	it("Debería crear una notificación POST [/notice]", function(done){
 		var data = {
 			"notice":{
 				"title": 	"Nueva notificación",
@@ -127,7 +126,7 @@ describe("Crear notificación", function(){
 
 describe("Marcar notificación como leída", function(){
 
-	it("Deberia marcar una notificación como leida POST [/notice/read]", function(done){
+	it("Debería marcar una notificación como leida POST [/notice/read]", function(done){
 		var data = {
 			"mark_as_read":{
 				"_id":		"16a54asddfs",
@@ -143,7 +142,7 @@ describe("Marcar notificación como leída", function(){
         	});
 	});
 
-	it("Deberia marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
+	it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
 		var data = {
 			"mark_as_read":{
 				"user_id":  1,
@@ -154,6 +153,40 @@ describe("Marcar notificación como leída", function(){
 			.send(data)
         	.expect(200)
         	.end(function(err, res) {
+        		done(err);
+        	});
+	});
+});
+
+describe("Eliminar notificaciones", function(){
+
+	it("Debería eliminar una notificación DELETE [/notice]", function(done){
+		var data = {
+			"delete":{
+				"_id":		"16a54asddfs",
+				"user_id":	1
+			}
+		};
+
+		request.delete("/notice")
+			.send(data)
+			.expect(204)
+			.end(function(err, res) {
+        		done(err);
+        	});
+	});
+
+	it.only("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
+		var data = {
+			"delete":{
+				"user_id":	1
+			}
+		};
+
+		request.delete("/notice")
+			.send(data)
+			.expect(204)
+			.end(function(err, res) {
         		done(err);
         	});
 	});

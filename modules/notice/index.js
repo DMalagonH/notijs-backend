@@ -161,4 +161,15 @@ app.post("/notice/read", function(req, res){
 	res.status(200).send();
 });
 
+/**
+ * Función para eliminar notificaciones
+ */
+app.delete("/notice", function(req, res){
+	var data = req.body;
+
+	console.log(data);
+
+	res.status(204).send();
+});
+
 module.exports = app;
