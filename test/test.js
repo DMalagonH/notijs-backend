@@ -60,7 +60,7 @@ describe("NotiJS Test", function(){
 				});
 		});
 
-		it("Debería traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
+		it("Debería traer la lista de máximo 10 notificaciones del usuario GET [/notices/1/10]", function(done){
 			request
 				.get("/notices/1/10")
 				.set('Accept', 'application/json')
@@ -78,8 +78,8 @@ describe("NotiJS Test", function(){
 					// Validar que notices sea un array
 					expect(notices).to.be.an('array');
 
-					// Validar que sean 10 notificaciones
-					expect(notices).to.have.length(10);
+					// Validar que sean máximo 10 notificaciones
+					expect(notices).to.have.length.below(11);
 	    
 	                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
 	                _.forEach(notices, function(notice){
