@@ -4,11 +4,11 @@ var Schema = mongoose.Schema;
 var NoticeSchema = new Schema({
 	title: String,
 	body: String,
-	datetime: String,
-	img: String,
-	url: String,
+	datetime: { type: Date, default: Date.now },
+	img: { type: String, default: null },
+	url: { type: String, default: null },
 	user_id: Number,
-	read: Boolean
+	read: { type: Boolean, default: false }
 });
 
 NoticeSchema.set("toJSON", {

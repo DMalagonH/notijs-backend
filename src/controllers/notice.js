@@ -138,15 +138,11 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
  * Función para crear una notificacion
  */
 app.post("/notice", function(req, res){
+	// Obtener datos del request
 	var data = req.body;
 	var new_notice = data.notice;
 
-	var date = new Date();
-
-	//notice._id = Date.now();
-	new_notice.datetime = date.format("YYYY-MM-DD hh:mm:ss");
-	new_notice.read = false;
-
+	// Registrar notificación en MongoDB
 	Notice.create(new_notice).then(function(notice){
 		// Response
 		res.status(201)
