@@ -18,7 +18,7 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
     var user_id = parseInt(req.params.user_id);
     var num_items = parseInt(req.params.num_items) || null;
     
-    // Obtener notificaciones del usuario ordenadas por fecha descendentemente y con el limite indicado
+    // Obtener notificaciones del usuario ordenadas por fecha descendentemente y con el límite indicado
     Notice.find({
     	"user_id": user_id
     })
