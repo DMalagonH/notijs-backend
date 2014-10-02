@@ -2,11 +2,12 @@
 * Module dependencies
 */
 var express = require('express');
-
-
-var app = module.exports = express();
+var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var params = require("./config/params");
+
+var app = module.exports = express();
+
 
 // parse json requests
 app.use(bodyParser.json('application/json'));
@@ -19,7 +20,12 @@ app.use(notice);
 
 
 if (!module.parent) {
-	app.listen(params.http_port, function(){
-		console.log("Notijs listening in port", params.http_port);
+	// Conectar con MongoDB
+	mongoose.connect("mongodb://"+ params.mongodb_host +"/"+ params.mongodb_dbname +":"+ params.mongodb_port , function() {
+
+		// Iniciar servidor
+		app.listen(params.http_port, function(){
+			console.log("Notijs listening in port", params.http_port);
+		});
 	});
 }

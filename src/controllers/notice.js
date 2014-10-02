@@ -7,6 +7,10 @@ require("date-format-lite");
 
 var app = express();
 
+// Modelo
+var Notice = require("../models/notice");
+
+
 /**
  * Función para enlistar notificaciones
  */
@@ -135,19 +139,21 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
  */
 app.post("/notice", function(req, res){
 	var data = req.body;
-	var notice = data.notice;
+	var new_notice = data.notice;
 
 	var date = new Date();
 
-	notice._id = Date.now();
-	notice.datetime = date.format("YYYY-MM-DD hh:mm:ss");
-	notice.read = false;
+	//notice._id = Date.now();
+	new_notice.datetime = date.format("YYYY-MM-DD hh:mm:ss");
+	new_notice.read = false;
 
-	res.status(201)
-		.set('Content-Type','application/json')
-		.json({
-			"notice": notice
-		});
+	Notice.create(new_notice).then(function(notice){
+		// Response
+		res.status(201)
+			.json({
+				notice: notice
+			});
+	});
 });
 
 /**

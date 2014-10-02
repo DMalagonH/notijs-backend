@@ -84,7 +84,7 @@ describe("Listados de notificaciones", function(){
 
 describe("Crear notificación", function(){
 
-	it("Debería crear una notificación POST [/notice]", function(done){
+	it.only("Debería crear una notificación POST [/notice]", function(done){
 		var data = {
 			"notice":{
 				"title": 	"Nueva notificación",
