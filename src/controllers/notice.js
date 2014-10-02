@@ -3,7 +3,6 @@
  */
 var express = require('express');
 var _ = require("lodash");
-require("date-format-lite");
 
 var app = express();
 
