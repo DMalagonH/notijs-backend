@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var NoticeSchema = new Schema({
-	title: String,
-	body: String,
+	title: { type: String, required: true },
+	body: { type: String, required: true },
 	datetime: { type: Date, default: Date.now },
 	img: { type: String, default: null },
 	url: { type: String, default: null },
-	user_id: Number,
+	user_id: { type: Number, required: true },
 	read: { type: Boolean, default: false }
 });
 
