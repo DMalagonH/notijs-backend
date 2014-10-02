@@ -1,238 +1,256 @@
 var request = require('supertest');
 var api = require('../index.js');
+var params = require('../config/params');
 var _ = require('lodash');
+var mongoose = require('mongoose');
 
 request = request(api);
 
-describe("Listados de notificaciones", function(){
+describe("NotiJS Test", function(){
 
-	it("Debería traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
-		request
-			.get("/notices/1")
-			.set('Accept', 'application/json')
-			.expect(200)
-			.expect('Content-Type', /application\/json/)
-			.end(function(err, res){
-
-				var body = res.body;
-				var notices;
-
-				// Validar que exista la propiedad notices
-				expect(body).to.have.property('notices');	
-				notices = body.notices;
-
-				// Validar que notices sea un array
-				expect(notices).to.be.an('array');
-
-				// Validar que las notificaciones tengan user_id = 1
-				//var founds = _.where(notices, { 'user_id': '1' });
-                //expect(founds).to.have.length(notices.length);
-    
-                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
-                _.forEach(notices, function(notice){
-                    expect(notice).to.have.property('_id');
-                    expect(notice).to.have.property('title');
-                    expect(notice).to.have.property('body');
-                    expect(notice).to.have.property('datetime');
-                    expect(notice).to.have.property('img');
-                    expect(notice).to.have.property('url');
-                    expect(notice).to.have.property('user_id', 1);
-                    expect(notice).to.have.property('read');
-                });
-
-				done(err);
-			});
+	// Conectarse a MongoDB Antes de realizar las pruebas
+	before(function(done) {
+		mongoose.connect("mongodb://"+ params.mongodb_host +":"+ params.mongodb_port +"/"+ params.mongodb_dbname, done);
 	});
 
-	it("Debería traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
-		request
-			.get("/notices/1/10")
-			.set('Accept', 'application/json')
-			.expect(200)
-			.expect('Content-Type', /application\/json/)
-			.end(function(err, res){
-
-				var body = res.body;
-				var notices;
-
-				// Validar que exista la propiedad notices
-				expect(body).to.have.property('notices');	
-				notices = body.notices;
-
-				// Validar que notices sea un array
-				expect(notices).to.be.an('array');
-
-				// Validar que sean 10 notificaciones
-				expect(notices).to.have.length(10);
-    
-                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
-                _.forEach(notices, function(notice){
-                    expect(notice).to.have.property('_id');
-                    expect(notice).to.have.property('title');
-                    expect(notice).to.have.property('body');
-                    expect(notice).to.have.property('datetime');
-                    expect(notice).to.have.property('img');
-                    expect(notice).to.have.property('url');
-                    expect(notice).to.have.property('user_id', 1);
-                    expect(notice).to.have.property('read');
-                });
-
-				done(err);
-			});
+	// Desconectarse de MongoDB al finalizar las pruebas
+	after(function(done) {
+		mongoose.disconnect(done);
+		mongoose.models = {};
 	});
-});
 
-describe("Crear notificación", function(){
 
-	it.only("Debería crear una notificación POST [/notice]", function(done){
-		var data = {
-			"notice":{
-				"title": 	"Nueva notificación",
-				"body": 	"Contenido de la nueva notificación",
-				"img":		"/imgs/image.jpg",
-				"url": 		"http://google.com",
-				"user_id": 	1	
+	describe("Listados de notificaciones", function(){
+
+		it("Debería traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
+			request
+				.get("/notices/1")
+				.set('Accept', 'application/json')
+				.expect(200)
+				.expect('Content-Type', /application\/json/)
+				.end(function(err, res){
+
+					var body = res.body;
+					var notices;
+
+					// Validar que exista la propiedad notices
+					expect(body).to.have.property('notices');	
+					notices = body.notices;
+
+					// Validar que notices sea un array
+					expect(notices).to.be.an('array');
+
+					// Validar que las notificaciones tengan user_id = 1
+					//var founds = _.where(notices, { 'user_id': '1' });
+	                //expect(founds).to.have.length(notices.length);
+	    
+	                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
+	                _.forEach(notices, function(notice){
+	                    expect(notice).to.have.property('_id');
+	                    expect(notice).to.have.property('title');
+	                    expect(notice).to.have.property('body');
+	                    expect(notice).to.have.property('datetime');
+	                    expect(notice).to.have.property('img');
+	                    expect(notice).to.have.property('url');
+	                    expect(notice).to.have.property('user_id', 1);
+	                    expect(notice).to.have.property('read');
+	                });
+
+					done(err);
+				});
+		});
+
+		it("Debería traer la lista de 10 notificaciones del usuario GET [/notices/1/10]", function(done){
+			request
+				.get("/notices/1/10")
+				.set('Accept', 'application/json')
+				.expect(200)
+				.expect('Content-Type', /application\/json/)
+				.end(function(err, res){
+
+					var body = res.body;
+					var notices;
+
+					// Validar que exista la propiedad notices
+					expect(body).to.have.property('notices');	
+					notices = body.notices;
+
+					// Validar que notices sea un array
+					expect(notices).to.be.an('array');
+
+					// Validar que sean 10 notificaciones
+					expect(notices).to.have.length(10);
+	    
+	                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
+	                _.forEach(notices, function(notice){
+	                    expect(notice).to.have.property('_id');
+	                    expect(notice).to.have.property('title');
+	                    expect(notice).to.have.property('body');
+	                    expect(notice).to.have.property('datetime');
+	                    expect(notice).to.have.property('img');
+	                    expect(notice).to.have.property('url');
+	                    expect(notice).to.have.property('user_id', 1);
+	                    expect(notice).to.have.property('read');
+	                });
+
+					done(err);
+				});
+		});
+	});
+
+	describe("Crear notificación", function(){
+
+		it("Debería crear una notificación POST [/notice]", function(done){
+			var data = {
+				"notice":{
+					"title": 	"Nueva notificación",
+					"body": 	"Contenido de la nueva notificación",
+					"img":		"/imgs/image.jpg",
+					"url": 		"http://google.com",
+					"user_id": 	1	
+				}
 			}
-		}
 
-		request
-			.post("/notice")
-			.set('Accept', 'application/json')
-        	.send(data)
-        	.expect(201)
-        	.expect('Content-Type', /application\/json/)
-        	.end(function(err, res) {
-    			var body = res.body;
+			request
+				.post("/notice")
+				.set('Accept', 'application/json')
+	        	.send(data)
+	        	.expect(201)
+	        	.expect('Content-Type', /application\/json/)
+	        	.end(function(err, res) {
+	    			var body = res.body;
 
-    			// Verificar que la notificación existe en la respuesta
-    			expect(body).to.have.property("notice");
+	    			// Verificar que la notificación existe en la respuesta
+	    			expect(body).to.have.property("notice");
 
-    			var notice = body.notice;
+	    			var notice = body.notice;
 
-    			// Verificar que la notificación tiene todas las propiedades que se enviaron
-    			expect(notice).to.have.property("title", data.notice.title);
-    			expect(notice).to.have.property("body", data.notice.body);
-    			expect(notice).to.have.property("img", data.notice.img);
-    			expect(notice).to.have.property("url", data.notice.url);
-    			expect(notice).to.have.property("user_id", data.notice.user_id);
-    			expect(notice).to.have.property("read", false);
-    			expect(notice).to.have.property("datetime");
-    			expect(notice).to.have.property("_id");
-    			
-    			done(err);
-        	});
-	});
-});
-
-describe("Marcar notificación como leída", function(){
-
-	it("Debería marcar una notificación como leida POST [/notice/read]", function(done){
-		var data = {
-			"mark_as_read":{
-				"_id":		"16a54asddfs",
-				"user_id":  1,
-			}
-		};
-
-		request.post("/notice/read")
-			.send(data)
-        	.expect(200)
-        	.end(function(err, res) {
-        		done(err);
-        	});
+	    			// Verificar que la notificación tiene todas las propiedades que se enviaron
+	    			expect(notice).to.have.property("title", data.notice.title);
+	    			expect(notice).to.have.property("body", data.notice.body);
+	    			expect(notice).to.have.property("img", data.notice.img);
+	    			expect(notice).to.have.property("url", data.notice.url);
+	    			expect(notice).to.have.property("user_id", data.notice.user_id);
+	    			expect(notice).to.have.property("read", false);
+	    			expect(notice).to.have.property("datetime");
+	    			expect(notice).to.have.property("_id");
+	    			
+	    			done(err);
+	        	});
+		});
 	});
 
-	it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
-		var data = {
-			"mark_as_read":{
-				"user_id":  1,
-			}
-		};
+	describe("Marcar notificación como leída", function(){
 
-		request.post("/notice/read")
-			.send(data)
-        	.expect(200)
-        	.end(function(err, res) {
-        		done(err);
-        	});
-	});
-});
+		it("Debería marcar una notificación como leida POST [/notice/read]", function(done){
+			var data = {
+				"mark_as_read":{
+					"_id":		"16a54asddfs",
+					"user_id":  1,
+				}
+			};
 
-describe("Eliminar notificaciones", function(){
+			request.post("/notice/read")
+				.send(data)
+	        	.expect(200)
+	        	.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
 
-	it("Debería eliminar una notificación DELETE [/notice]", function(done){
-		var data = {
-			"delete":{
-				"_id":		"16a54asddfs",
-				"user_id":	1
-			}
-		};
+		it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
+			var data = {
+				"mark_as_read":{
+					"user_id":  1,
+				}
+			};
 
-		request.delete("/notice")
-			.send(data)
-			.expect(204)
-			.end(function(err, res) {
-        		done(err);
-        	});
-	});
-
-	it("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
-		var data = {
-			"delete":{
-				"user_id":	1
-			}
-		};
-
-		request.delete("/notice")
-			.send(data)
-			.expect(204)
-			.end(function(err, res) {
-        		done(err);
-        	});
-	});
-});
-
-describe("Enviar notificaciones instantáneas", function(){
-
-	it("Debería enviar una notificación instantánea a todos los usuarios", function(done){
-		var data = {
-			"notice":{
-				"title": 	"Nueva notificación",
-				"body": 	"Contenido de la nueva notificación",
-				"img":		"/imgs/image.jpg",
-				"url": 		"http://google.com"
-			}
-		};
-
-		request
-			.post("/notice/flash")
-			.set('Accept', 'application/json')
-        	.send(data)
-        	.expect(200)
-        	.end(function(err, res) {
-        		done(err);
-        	});
+			request.post("/notice/read")
+				.send(data)
+	        	.expect(200)
+	        	.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
 	});
 
+	describe("Eliminar notificaciones", function(){
 
-	it("Debería enviar una notificación instantánea a usuarios específicos", function(done){
-		var data = {
-			"notice":{
-				"title": 	"Nueva notificación",
-				"body": 	"Contenido de la nueva notificación",
-				"img":		"/imgs/image.jpg",
-				"url": 		"http://google.com"
-			},
-			"users": [1, 2, 3]
-		};
+		it("Debería eliminar una notificación DELETE [/notice]", function(done){
+			var data = {
+				"delete":{
+					"_id":		"16a54asddfs",
+					"user_id":	1
+				}
+			};
 
-		request
-			.post("/notice/flash")
-			.set('Accept', 'application/json')
-        	.send(data)
-        	.expect(200)
-        	.end(function(err, res) {
-        		done(err);
-        	});
+			request.delete("/notice")
+				.send(data)
+				.expect(204)
+				.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
+
+		it("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
+			var data = {
+				"delete":{
+					"user_id":	1
+				}
+			};
+
+			request.delete("/notice")
+				.send(data)
+				.expect(204)
+				.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
 	});
+
+	describe("Enviar notificaciones instantáneas", function(){
+
+		it("Debería enviar una notificación instantánea a todos los usuarios", function(done){
+			var data = {
+				"notice":{
+					"title": 	"Nueva notificación",
+					"body": 	"Contenido de la nueva notificación",
+					"img":		"/imgs/image.jpg",
+					"url": 		"http://google.com"
+				}
+			};
+
+			request
+				.post("/notice/flash")
+				.set('Accept', 'application/json')
+	        	.send(data)
+	        	.expect(200)
+	        	.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
+
+
+		it("Debería enviar una notificación instantánea a usuarios específicos", function(done){
+			var data = {
+				"notice":{
+					"title": 	"Nueva notificación",
+					"body": 	"Contenido de la nueva notificación",
+					"img":		"/imgs/image.jpg",
+					"url": 		"http://google.com"
+				},
+				"users": [1, 2, 3]
+			};
+
+			request
+				.post("/notice/flash")
+				.set('Accept', 'application/json')
+	        	.send(data)
+	        	.expect(200)
+	        	.end(function(err, res) {
+	        		done(err);
+	        	});
+		});
+	});
+
 });

@@ -21,7 +21,7 @@ app.use(notice);
 
 if (!module.parent) {
 	// Conectar con MongoDB
-	mongoose.connect("mongodb://"+ params.mongodb_host +"/"+ params.mongodb_dbname +":"+ params.mongodb_port , function() {
+	mongoose.connect("mongodb://"+ params.mongodb_host +":"+ params.mongodb_port +"/"+ params.mongodb_dbname , function() {
 
 		// Iniciar servidor
 		app.listen(params.http_port, function(){
