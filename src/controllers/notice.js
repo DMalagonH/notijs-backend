@@ -151,7 +151,7 @@ app.post("/notice", function(req, res){
 		// Response
 		res.status(201)
 			.json({
-				notice: notice
+				notice: notice.toJSON()
 			});
 	});
 });
