@@ -14,7 +14,7 @@ app.use(bodyParser.json('application/json'));
 /**
 * Routes
 */
-var notice = require("./modules/notice");
+var notice = require("./src/controllers/notice");
 app.use(notice);
 
 
