@@ -110,7 +110,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 
 ### Marcar notificación como leída
-	Request [POST] /notice/read
+	Request [PATCH] /notice/read
 	{
 		"mark_as_read":{
 			"_id":		"16a54asddfs",
@@ -126,7 +126,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 
 ### Marcar todas las notificaciones como leidas
-	Request [POST] /notice/read
+	Request [PATCH] /notice/read
 	{
 		"mark_as_read":{
 			"user_id":	123,

@@ -188,7 +188,7 @@ describe("NotiJS Test", function(){
 	        	};
 
 	        	// Enviar petición para marcar notificación como leída
-				return request.post("/notice/read")
+				return request.patch("/notice/read")
 					.send(mark)
 		        	.expect(200)
 		        	.expect('Content-Type', /application\/json/)		        	
@@ -211,7 +211,7 @@ describe("NotiJS Test", function(){
 				}
 			};
 
-			request.post("/notice/read")
+			request.patch("/notice/read")
 				.send(data)
 	        	.expect(200)
 	        	.expect('Content-Type', /application\/json/)

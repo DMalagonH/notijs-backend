@@ -79,7 +79,7 @@ app.post("/notice", function(req, res){
 /**
  * Función para marcar notificaciones como leídas
  */
-app.post("/notice/read", function(req, res){
+app.patch("/notice/read", function(req, res){
 	// Obtener datos del request
 	var data = req.body;
 	var marks = data.mark_as_read;
