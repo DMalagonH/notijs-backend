@@ -1,4 +1,4 @@
-var request = require('supertest');
+var request = require('supertest-as-promised');
 var api = require('../index.js');
 var params = require('../config/params');
 var _ = require('lodash');
@@ -161,22 +161,50 @@ describe("NotiJS Test", function(){
 	describe("Marcar notificación como leída", function(){
 
 		it("Debería marcar una notificación como leida POST [/notice/read]", function(done){
+			
+			var user_id = 1;
 			var data = {
-				"mark_as_read":{
-					"_id":		"16a54asddfs",
-					"user_id":  1,
+				"notice":{
+					"title": 	"notificación de prueba",
+					"body": 	"Notificación para  marcar como leida",
+					"user_id": 	user_id	
 				}
-			};
+			}
 
-			request.post("/notice/read")
-				.send(data)
-	        	.expect(200)
-	        	.end(function(err, res) {
-	        		done(err);
-	        	});
+			// Enviar petición para crear nueva notificación
+			request
+				.post("/notice")
+				.set('Accept', 'application/json')
+	        	.send(data)
+	        	.expect(201)
+	        .then(function(res){
+	        	// Obtener id de notificación creada
+	        	var id = res.body.notice._id;
+	        	var mark = {
+	        		"mark_as_read":{
+	        			"_id": 		id,
+	        			"user_id": 	user_id
+	        		}
+	        	};
+
+	        	// Enviar petición para marcar notificación como leída
+				return request.post("/notice/read")
+					.send(mark)
+		        	.expect(200)
+		        	.expect('Content-Type', /application\/json/)		        	
+	        }, done)
+	        .then(function(res){
+	        	// Obtener número de notificaciones marcadas
+	        	var body = res.body;
+
+	        	// Validar que exista afected y sea 1
+	        	expect(body).to.have.property('afected', 1);
+
+	        	done();
+	        }, done);
 		});
 
-		it.only("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
+		it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
 			var data = {
 				"mark_as_read":{
 					"user_id":  1,
