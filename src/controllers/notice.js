@@ -3,21 +3,47 @@
  */
 var express = require('express');
 var _ = require("lodash");
+var v = require('validate-obj');
 
 var app = express();
 
 // Modelo
 var Notice = require("../models/notice");
 
+/**
+ * Expresiones de validación para parametros enviados en los request
+ */
+var RequestValExp = {
+	createNotice: {
+		title: 		[v.required, v.isString],
+		body: 		[v.required, v.isString],
+		img: 		[v.isString],
+		url: 		[v.isString],
+		user_id: 	[v.required, v.isNumber]
+	},
+	markAsRead: {
+		id:			[v.isString],
+		user_id: 	[v.required, v.isNumber]
+	},
+	deleteNotice: {
+		id:			[v.isString],
+		user_id: 	[v.required, v.isNumber]
+	},
+	createNoticeFlash: {
+		title: 		[v.required, v.isString],
+		body: 		[v.required, v.isString],
+		img: 		[v.isString],
+		url: 		[v.isString]
+	},
+};
 
 /**
  * Función para enlistar notificaciones
  */
-app.get('/notice/list/:user_id/:num_items?', function(req, res){  
-
+app.get('/notice/list/:user_id/:num_items?', function(req, res){
     var user_id = parseInt(req.params.user_id);
     var num_items = parseInt(req.params.num_items) || null;
-    
+
     // Obtener notificaciones del usuario ordenadas por fecha descendentemente y con el límite indicado
     Notice.find({
     	"user_id": user_id
@@ -74,19 +100,28 @@ app.post("/notice", function(req, res){
 	var data = req.body;
 	var new_notice = data.notice;
 
-	// Registrar notificación en MongoDB
-	Notice.create(new_notice, function(err, notice){
-		if(!err){
-			// Response
-			res.status(201)
-			.json({
-				notice: notice.toJSON()
-			});
-		}
-		else{
-			res.status(500).send();
-		}
-	});
+	// Validar parámetros del request
+	var val_errs = v.hasErrors(new_notice, RequestValExp.createNotice);
+	if(!val_errs){
+		// Registrar notificación en MongoDB
+		Notice.create(new_notice, function(err, notice){
+			if(!err){
+				// Response
+				res.status(201)
+				.json({
+					notice: notice.toJSON()
+				});
+			}
+			else{
+				res.status(500).send();
+			}
+		});	
+	}
+	else{
+		res.status(400).json({
+			errors: val_errs
+		});
+	}
 });
 
 /**
@@ -96,39 +131,50 @@ app.patch("/notice/read", function(req, res){
 	// Obtener datos del request
 	var data = req.body;
 	var marks = data.mark_as_read;
-	var user_id = marks.user_id;
 
-	// Preparar datos de consulta
-	var find = {
-		"user_id": 	user_id,
-		"read": 	false
-	};
-	if(typeof(marks.id) !== "undefined"){
-		find._id = marks.id;
+	// Validar parámetros del request
+	var val_errs = v.hasErrors(marks, RequestValExp.markAsRead);
+	if(!val_errs){
+
+		var user_id = marks.user_id;
+		
+		// Preparar datos de consulta
+		var find = {
+			"user_id": 	user_id,
+			"read": 	false
+		};
+		if(typeof(marks.id) !== "undefined"){
+			find._id = marks.id;
+		}
+
+		Notice.update(find, 
+			{
+				$set:{
+					"read": true
+				}	
+			},
+			{
+				"multi": true
+			}
+		)
+		.exec(function(err, num_afected){
+			if(!err){
+				res.status(200)
+				.set('Content-Type','application/json')
+				.json({
+					"afected": num_afected
+				});
+			}
+			else{
+				res.status(500).send();
+			}
+		});
 	}
-
-	Notice.update(find, 
-		{
-			$set:{
-				"read": true
-			}	
-		},
-		{
-			"multi": true
-		}
-	)
-	.exec(function(err, num_afected){
-		if(!err){
-			res.status(200)
-			.set('Content-Type','application/json')
-			.json({
-				"afected": num_afected
-			});
-		}
-		else{
-			res.status(500).send();
-		}
-	});
+	else{
+		res.status(400).json({
+			errors: val_errs
+		});
+	}
 });
 
 /**
@@ -140,28 +186,37 @@ app.delete("/notice", function(req, res){
 	var marks = data.delete;
 	var user_id = marks.user_id;
 
-	// Preparar datos de consulta
-	var find = {
-		"user_id": 	user_id,
-	};
-	if(typeof(marks.id) !== "undefined"){
-		find._id = marks.id;
+	// Validar parámetros del request
+	var val_errs = v.hasErrors(marks, RequestValExp.deleteNotice);
+
+	if(!val_errs){
+		// Preparar datos de consulta
+		var find = {
+			"user_id": 	user_id,
+		};
+		if(typeof(marks.id) !== "undefined"){
+			find._id = marks.id;
+		}
+
+		Notice.remove(find)
+		.exec(function(err, num_deleted){
+			if(!err){
+				res.status(200)
+				.set('Content-Type','application/json')
+				.json({
+					"deleted": num_deleted
+				});
+			}
+			else{
+				res.status(500).send();
+			}
+		});
 	}
-
-	Notice.remove(find)
-	.exec(function(err, num_deleted){
-		if(!err){
-			res.status(200)
-			.set('Content-Type','application/json')
-			.json({
-				"deleted": num_deleted
-			});
-		}
-		else{
-			res.status(500).send();
-		}
-	});
-
+	else{
+		res.status(400).json({
+			errors: val_errs
+		});
+	}
 });
 
 /**
@@ -169,11 +224,20 @@ app.delete("/notice", function(req, res){
  */
 app.post("/notice/flash", function(req, res){
 	var data = req.body;
+	var flash_notice = data.notice;
 
-	//console.log(data);
+	// Validar parámetros del request
+	var val_errs = v.hasErrors(flash_notice, RequestValExp.createNoticeFlash);
 
-	res.status(200).send();
+	if(!val_errs){
+
+		res.status(200).send();
+	}
+	else{
+		res.status(400).json({
+			errors: val_errs
+		});
+	}
 });
-
 
 module.exports = app;
