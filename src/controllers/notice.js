@@ -106,9 +106,10 @@ app.patch("/notice/read", function(req, res){
 	)
 	.exec(function(err, num_afected){
 		res.status(200)
-			.json({
-				afected: num_afected
-			});
+		.set('Content-Type','application/json')
+		.json({
+			"afected": num_afected
+		});
 	});
 
 });
@@ -121,7 +122,11 @@ app.delete("/notice", function(req, res){
 
 	//console.log(data);
 
-	res.status(204).send();
+	res.status(200)
+	.set('Content-Type','application/json')
+	.json({
+		"deleted": 1
+	});
 });
 
 /**

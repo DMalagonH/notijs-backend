@@ -232,7 +232,7 @@ describe("NotiJS Test", function(){
 
 	describe("Eliminar notificaciones", function(){
 
-		it.only("Debería eliminar una notificación DELETE [/notice]", function(done){
+		it("Debería eliminar una notificación DELETE [/notice]", function(done){
 			var user_id = 1;
 			var data = {
 				"notice":{
@@ -260,8 +260,9 @@ describe("NotiJS Test", function(){
 
 				// Enviar petición para eliminar notificación
 				return request.delete("/notice")
+					.set('Accept', 'application/json')
 					.send(delete_data)
-					.expect(204)
+					.expect(200)
 					.expect('Content-Type', /application\/json/)				
         	}, done)
         	.then(function(res){
@@ -284,7 +285,7 @@ describe("NotiJS Test", function(){
 
 			request.delete("/notice")
 				.send(data)
-				.expect(204)
+				.expect(200)
 				.expect('Content-Type', /application\/json/)
 				.end(function(err, res) {
 					var body = res.body;
