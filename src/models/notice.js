@@ -7,7 +7,7 @@ var NoticeSchema = new Schema({
 	datetime: { type: Date, default: Date.now },
 	img: { type: String, default: null },
 	url: { type: String, default: null },
-	user_id: { type: Number, required: true },
+	user_id: { type: String, required: true },
 	read: { type: Boolean, default: false }
 });
 

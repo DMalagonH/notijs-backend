@@ -51,7 +51,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-10-02T12:39:25.239Z",
 			"img":		"/imgs/image.jpg",
 			"url":		"http://www.google.com",
-			"user_id":	1467,
+			"user_id":	"1467",
 			"read":		false
 		},
 		{
@@ -61,7 +61,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-10-02T12:39:25.239Z",
 			"img":		null,
 			"url":		"/url/a/aplicacion",
-			"user_id":	1467,
+			"user_id":	"1467",
 			"read":		true
 		},
 		{
@@ -71,7 +71,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-10-02T12:39:25.239Z",
 			"img":		"http://url/de/la/imagen",
 			"url":		null,
-			"user_id":	1467,
+			"user_id":	"1467",
 			"read":		true
 		},
 	]
@@ -91,7 +91,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"body":		"Contenido de la nueva notificación",
 			"img":		"/imgs/image.jpg",							//Opcional
 			"url":		"http://url/de/la/notificación",			//Opcional
-			"user_id":	123	
+			"user_id":	"123"	
 		}
 	}
 	Response:
@@ -103,7 +103,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"datetime":	"2014-10-02T12:39:25.239Z",
 			"img":		"/imgs/image.jpg",
 			"url":		"http://url/de/la/notificación",
-			"user_id":	123,
+			"user_id":	"123",
 			"read":		false
 		}
 	}
@@ -114,7 +114,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	{
 		"mark_as_read":{
 			"id":		"16a54asddfs",
-			"user_id":	123
+			"user_id":	"123"
 		}
 	}
 	Response code:	200
@@ -128,7 +128,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Request [PATCH] /notice/read
 	{
 		"mark_as_read":{
-			"user_id":	123,
+			"user_id":	"123",
 		}
 	}
 	Response code:	200
@@ -143,7 +143,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	{
 		"delete":{
 			"id":		"16a54asddfs",
-			"user_id":	123,
+			"user_id":	"123",
 		}
 	}
 	Response code:	200
@@ -156,7 +156,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Request [DELETE] /notice
 	{
 		"delete":{
-			"user_id":	123,
+			"user_id":	"123",
 		}
 	}
 	Response code:	200
@@ -189,9 +189,9 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"url":		"http://url/de/la/notificación"				//Opcional
 		},
 		"users":[
-			1,
-			2,
-			3,
+			"1",
+			"2",
+			"3",
 			...
 		]
 	}

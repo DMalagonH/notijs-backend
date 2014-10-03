@@ -19,15 +19,15 @@ var RequestValExp = {
 		body: 		[v.required, v.isString],
 		img: 		[v.isString],
 		url: 		[v.isString],
-		user_id: 	[v.required, v.isNumber]
+		user_id: 	[v.required, v.isString]
 	},
 	markAsRead: {
 		id:			[v.isString],
-		user_id: 	[v.required, v.isNumber]
+		user_id: 	[v.required, v.isString]
 	},
 	deleteNotice: {
 		id:			[v.isString],
-		user_id: 	[v.required, v.isNumber]
+		user_id: 	[v.required, v.isString]
 	},
 	createNoticeFlash: {
 		title: 		[v.required, v.isString],

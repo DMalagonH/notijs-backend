@@ -52,7 +52,7 @@ describe("NotiJS Test", function(){
 	                    expect(notice).to.have.property('datetime');
 	                    expect(notice).to.have.property('img');
 	                    expect(notice).to.have.property('url');
-	                    expect(notice).to.have.property('user_id', 1);
+	                    expect(notice).to.have.property('user_id', "1");
 	                    expect(notice).to.have.property('read');
 	                });
 
@@ -89,7 +89,7 @@ describe("NotiJS Test", function(){
 	                    expect(notice).to.have.property('datetime');
 	                    expect(notice).to.have.property('img');
 	                    expect(notice).to.have.property('url');
-	                    expect(notice).to.have.property('user_id', 1);
+	                    expect(notice).to.have.property('user_id', "1");
 	                    expect(notice).to.have.property('read');
 	                });
 
@@ -125,7 +125,7 @@ describe("NotiJS Test", function(){
 					"body": 	"Contenido de la nueva notificación",
 					"img":		"/imgs/image.jpg",
 					"url": 		"http://google.com",
-					"user_id": 	1	
+					"user_id": 	"1"	
 				}
 			}
 
@@ -162,7 +162,7 @@ describe("NotiJS Test", function(){
 
 		it("Debería marcar una notificación como leida POST [/notice/read]", function(done){
 			
-			var user_id = 1;
+			var user_id = "1";
 			var data = {
 				"notice":{
 					"title": 	"notificación de prueba",
@@ -207,7 +207,7 @@ describe("NotiJS Test", function(){
 		it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
 			var data = {
 				"mark_as_read":{
-					"user_id":  1,
+					"user_id":  "1",
 				}
 			};
 
@@ -233,7 +233,7 @@ describe("NotiJS Test", function(){
 	describe("Eliminar notificaciones", function(){
 
 		it("Debería eliminar una notificación DELETE [/notice]", function(done){
-			var user_id = 1;
+			var user_id = "1";
 			var data = {
 				"notice":{
 					"title": 	"Notificación de prueba",
@@ -273,13 +273,12 @@ describe("NotiJS Test", function(){
 
         		done();
         	}, done);
-
 		});
 
 		it("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
 			var data = {
 				"delete":{
-					"user_id":	1
+					"user_id":	"1"
 				}
 			};
 
@@ -332,7 +331,7 @@ describe("NotiJS Test", function(){
 					"img":		"/imgs/image.jpg",
 					"url": 		"http://google.com"
 				},
-				"users": [1, 2, 3]
+				"users": ["1", "2", "3"]
 			};
 
 			request
