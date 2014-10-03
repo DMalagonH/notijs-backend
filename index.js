@@ -5,6 +5,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var params = require("./config/params");
+var socketio = require("socket.io");
 
 var app = module.exports = express();
 
@@ -28,9 +29,16 @@ if (!module.parent) {
 		} 
 		else {
 			// Iniciar servidor
-			app.listen(params.http_port, function(){
+			var server = app.listen(params.http_port, function(){
 				console.log("Notijs listening in port", params.http_port);
 			});
+            
+            var io = socketio.listen(server);
+            
+            io.sockets.on('connection', function(socket){
+                socket.emit('connected'); 
+                //Evento creado por nosotros se puede llamar 'pepito'
+            });
 		}
 	});
 }
