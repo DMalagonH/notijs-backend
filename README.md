@@ -119,6 +119,10 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	}
 	Response code:
 	200
+	Reponse:
+	{
+		afected: 1
+	}
 
 
 ### Marcar todas las notificaciones como leidas
@@ -130,6 +134,10 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	}
 	Response code:
 	200
+	Reponse:
+	{
+		afected: 7
+	}
 
 
 ### Eliminar una notificación

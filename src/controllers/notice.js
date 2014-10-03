@@ -56,7 +56,6 @@ app.get("/notice/unread/:user_id", function(req, res){
 				"unread": count
 			});	
 	});
-
 });
 
 /**
@@ -81,11 +80,37 @@ app.post("/notice", function(req, res){
  * Función para marcar notificaciones como leídas
  */
 app.post("/notice/read", function(req, res){
+	// Obtener datos del request
 	var data = req.body;
+	var marks = data.mark_as_read;
+	var user_id = marks.user_id;
 
-	//console.log(data);
+	// Preparar datos de consulta
+	var find = {
+		"user_id": 	user_id,
+		"read": 	false
+	};
+	if(typeof(marks._id) !== "undefined"){
+		find._id = marks._id;
+	}
 
-	res.status(200).send();
+	Notice.update(find, 
+		{
+			$set:{
+				"read": true
+			}	
+		},
+		{
+			"multi": true
+		}
+	)
+	.exec(function(err, num_afected){
+		res.status(200)
+			.json({
+				afected: num_afected
+			});
+	});
+
 });
 
 /**

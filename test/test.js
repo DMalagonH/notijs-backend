@@ -176,7 +176,7 @@ describe("NotiJS Test", function(){
 	        	});
 		});
 
-		it("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
+		it.only("Debería marcar todas las notificaciones del usuario como leidas POST [/notice/read]", function(done){
 			var data = {
 				"mark_as_read":{
 					"user_id":  1,
