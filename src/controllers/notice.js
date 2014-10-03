@@ -41,12 +41,22 @@ app.get('/notice/list/:user_id/:num_items?', function(req, res){
  * Función para obtener número de notificaciones sin leer
  */
 app.get("/notice/unread/:user_id", function(req, res){
-	res
-		.status(200)
-		.set('Content-Type','application/json')
-		.json({
-			unread: 3
-		});
+	
+	var user_id = parseInt(req.params.user_id);
+
+	Notice.count({
+		"user_id": 	user_id, 
+		"read": 	false
+	})
+	.exec(function(err, count){
+		res
+			.status(200)
+			.set('Content-Type','application/json')
+			.json({
+				"unread": count
+			});	
+	});
+
 });
 
 /**
