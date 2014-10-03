@@ -21,11 +21,16 @@ app.use(notice);
 
 if (!module.parent) {
 	// Conectar con MongoDB
-	mongoose.connect("mongodb://"+ params.mongodb_host +":"+ params.mongodb_port +"/"+ params.mongodb_dbname , function() {
+	mongoose.connect("mongodb://"+ params.mongodb_host +":"+ params.mongodb_port +"/"+ params.mongodb_dbname , function(err, res) {
 
-		// Iniciar servidor
-		app.listen(params.http_port, function(){
-			console.log("Notijs listening in port", params.http_port);
-		});
+		if(err) {
+			console.log('ERROR: connecting to Database. ' + err);
+		} 
+		else {
+			// Iniciar servidor
+			app.listen(params.http_port, function(){
+				console.log("Notijs listening in port", params.http_port);
+			});
+		}
 	});
 }
