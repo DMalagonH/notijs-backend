@@ -46,7 +46,7 @@ describe("NotiJS Test", function(){
 	    
 	                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
 	                _.forEach(notices, function(notice){
-	                    expect(notice).to.have.property('_id');
+	                    expect(notice).to.have.property('id');
 	                    expect(notice).to.have.property('title');
 	                    expect(notice).to.have.property('body');
 	                    expect(notice).to.have.property('datetime');
@@ -83,7 +83,7 @@ describe("NotiJS Test", function(){
 	    
 	                // Validar que todas las notificaciones tengan las propiedades y el user_id sea 1
 	                _.forEach(notices, function(notice){
-	                    expect(notice).to.have.property('_id');
+	                    expect(notice).to.have.property('id');
 	                    expect(notice).to.have.property('title');
 	                    expect(notice).to.have.property('body');
 	                    expect(notice).to.have.property('datetime');
@@ -151,7 +151,7 @@ describe("NotiJS Test", function(){
 	    			expect(notice).to.have.property("user_id", data.notice.user_id);
 	    			expect(notice).to.have.property("read", false);
 	    			expect(notice).to.have.property("datetime");
-	    			expect(notice).to.have.property("_id");
+	    			expect(notice).to.have.property("id");
 	    			
 	    			done(err);
 	        	});
@@ -179,10 +179,10 @@ describe("NotiJS Test", function(){
 	        	.expect(201)
 	        .then(function(res){
 	        	// Obtener id de notificación creada
-	        	var id = res.body.notice._id;
+	        	var id = res.body.notice.id;
 	        	var mark = {
 	        		"mark_as_read":{
-	        			"_id": 		id,
+	        			"id": 		id,
 	        			"user_id": 	user_id
 	        		}
 	        	};
@@ -250,10 +250,10 @@ describe("NotiJS Test", function(){
 	        	.expect(201)
         	.then(function(res){
 				// Obtener id de notificación creada
-	        	var id = res.body.notice._id;
+	        	var id = res.body.notice.id;
 				var delete_data = {
 					"delete":{
-						"_id":		id,
+						"id":		id,
 						"user_id":	user_id
 					}
 				};

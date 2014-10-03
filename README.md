@@ -45,7 +45,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Response:
 	[
 		{
-			"_id":		"1654sdfssk6",
+			"id":		"1654sdfssk6",
 			"title":	"Título",
 			"body":		"Contenido de la notificación",
 			"datetime":	"2014-10-02T12:39:25.239Z",
@@ -55,7 +55,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"read":		false
 		},
 		{
-			"_id":		"sd545433dw45",
+			"id":		"sd545433dw45",
 			"title":	"Título segunda notificación",
 			"body":		"Contenido de la notificación",
 			"datetime":	"2014-10-02T12:39:25.239Z",
@@ -65,7 +65,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 			"read":		true
 		},
 		{
-			"_id":		"5d5a6fa657e4",
+			"id":		"5d5a6fa657e4",
 			"title":	"Título tercera notificación",
 			"body":		"Contenido de la notificación",
 			"datetime":	"2014-10-02T12:39:25.239Z",
@@ -97,7 +97,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Response:
 	{
 		"notice":{
-			"_id":		"16a54asddfs",
+			"id":		"16a54asddfs",
 			"title":	"Nueva notificación",
 			"body":		"Contenido de la nueva notificación",
 			"datetime":	"2014-10-02T12:39:25.239Z",
@@ -113,7 +113,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Request [PATCH] /notice/read
 	{
 		"mark_as_read":{
-			"_id":		"16a54asddfs",
+			"id":		"16a54asddfs",
 			"user_id":	123
 		}
 	}
@@ -142,7 +142,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	Request [DELETE] /notice/delete
 	{
 		"delete":{
-			"_id":		"16a54asddfs",
+			"id":		"16a54asddfs",
 			"user_id":	123,
 		}
 	}

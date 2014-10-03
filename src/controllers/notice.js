@@ -90,8 +90,8 @@ app.patch("/notice/read", function(req, res){
 		"user_id": 	user_id,
 		"read": 	false
 	};
-	if(typeof(marks._id) !== "undefined"){
-		find._id = marks._id;
+	if(typeof(marks.id) !== "undefined"){
+		find._id = marks.id;
 	}
 
 	Notice.update(find, 
@@ -127,8 +127,8 @@ app.delete("/notice", function(req, res){
 	var find = {
 		"user_id": 	user_id,
 	};
-	if(typeof(marks._id) !== "undefined"){
-		find._id = marks._id;
+	if(typeof(marks.id) !== "undefined"){
+		find._id = marks.id;
 	}
 
 	Notice.remove(find)
