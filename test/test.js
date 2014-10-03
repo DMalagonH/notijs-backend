@@ -24,7 +24,7 @@ describe("NotiJS Test", function(){
 
 		it("Debería traer la lista completa de notificaciones del usuario GET [/notices/1]", function(done){
 			request
-				.get("/notices/1")
+				.get("/notice/list/1")
 				.set('Accept', 'application/json')
 				.expect(200)
 				.expect('Content-Type', /application\/json/)
@@ -62,7 +62,7 @@ describe("NotiJS Test", function(){
 
 		it("Debería traer la lista de máximo 10 notificaciones del usuario GET [/notices/1/10]", function(done){
 			request
-				.get("/notices/1/10")
+				.get("/notice/list/1/10")
 				.set('Accept', 'application/json')
 				.expect(200)
 				.expect('Content-Type', /application\/json/)
@@ -94,6 +94,24 @@ describe("NotiJS Test", function(){
 	                });
 
 					done(err);
+				});
+		});
+	});
+	
+	describe("Número de notificaciones sin leer", function(){
+		it("Debería obtener el número de notificaciones sin leer GET [/notice/unread/1]", function(){
+			request
+				.get("/notice/unread/1")
+				.expect(200)
+				.expect('Content-Type', /application\/json/)
+				.end(function(err, res){
+					var body = res.body;
+
+					// Validar que exista la propiedad notices
+					expect(body).to.have.property('unread');
+
+					// Validar que unread sea un entero
+					expect(body.unread).to.be.an('number');
 				});
 		});
 	});

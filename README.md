@@ -41,7 +41,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 ### Consultar notificaciones del usuario
 	
-	Request [GET] /notice/:user_id/:num_items?
+	Request [GET] /notice/list/:user_id/:num_items?
 	Response:
 	[
 		{
@@ -76,6 +76,12 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 		},
 	]
 
+### Consultar cantidad de notificaciones sin leer
+	Request [GET] /notice/unread/:user_id
+	Response:
+	{
+		"unread": 5
+	}
 
 ### Crear notificaciones
 	Request [POST] /notice

@@ -13,7 +13,7 @@ var Notice = require("../models/notice");
 /**
  * Función para enlistar notificaciones
  */
-app.get('/notices/:user_id/:num_items?', function(req, res){  
+app.get('/notice/list/:user_id/:num_items?', function(req, res){  
 
     var user_id = parseInt(req.params.user_id);
     var num_items = parseInt(req.params.num_items) || null;
@@ -37,7 +37,18 @@ app.get('/notices/:user_id/:num_items?', function(req, res){
     });
 });
 
-	
+/**
+ * Función para obtener número de notificaciones sin leer
+ */
+app.get("/notice/unread/:user_id", function(req, res){
+	res
+		.status(200)
+		.set('Content-Type','application/json')
+		.json({
+			unread: 3
+		});
+});
+
 /**
  * Función para crear una notificacion
  */
