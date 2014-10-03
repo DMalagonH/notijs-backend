@@ -214,7 +214,17 @@ describe("NotiJS Test", function(){
 			request.post("/notice/read")
 				.send(data)
 	        	.expect(200)
+	        	.expect('Content-Type', /application\/json/)
 	        	.end(function(err, res) {
+					// Obtener número de notificaciones marcadas
+		        	var body = res.body;
+
+		        	// Validar que exista afected
+		        	expect(body).to.have.property('afected');
+
+		        	// Validar que afected se un entero
+		        	expect(body.afected).to.be.an('number');
+
 	        		done(err);
 	        	});
 		});
