@@ -236,7 +236,7 @@ describe("NotiJS Test", function(){
 			var user_id = 1;
 			var data = {
 				"notice":{
-					"title": 	"notificación de prueba",
+					"title": 	"Notificación de prueba",
 					"body": 	"Notificación para eliminar",
 					"user_id": 	user_id	
 				}

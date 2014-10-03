@@ -118,15 +118,28 @@ app.patch("/notice/read", function(req, res){
  * Función para eliminar notificaciones
  */
 app.delete("/notice", function(req, res){
+	// Obtener datos del request
 	var data = req.body;
+	var marks = data.delete;
+	var user_id = marks.user_id;
 
-	//console.log(data);
+	// Preparar datos de consulta
+	var find = {
+		"user_id": 	user_id,
+	};
+	if(typeof(marks._id) !== "undefined"){
+		find._id = marks._id;
+	}
 
-	res.status(200)
-	.set('Content-Type','application/json')
-	.json({
-		"deleted": 1
+	Notice.remove(find)
+	.exec(function(err, num_deleted){
+		res.status(200)
+		.set('Content-Type','application/json')
+		.json({
+			"deleted": num_deleted
+		});
 	});
+
 });
 
 /**
