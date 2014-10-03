@@ -166,7 +166,7 @@ describe("NotiJS Test", function(){
 			var data = {
 				"notice":{
 					"title": 	"notificación de prueba",
-					"body": 	"Notificación para  marcar como leida",
+					"body": 	"Notificación para marcar como leida",
 					"user_id": 	user_id	
 				}
 			}
@@ -232,20 +232,47 @@ describe("NotiJS Test", function(){
 
 	describe("Eliminar notificaciones", function(){
 
-		it("Debería eliminar una notificación DELETE [/notice]", function(done){
+		it.only("Debería eliminar una notificación DELETE [/notice]", function(done){
+			var user_id = 1;
 			var data = {
-				"delete":{
-					"_id":		"16a54asddfs",
-					"user_id":	1
+				"notice":{
+					"title": 	"notificación de prueba",
+					"body": 	"Notificación para eliminar",
+					"user_id": 	user_id	
 				}
-			};
+			}
 
-			request.delete("/notice")
-				.send(data)
-				.expect(204)
-				.end(function(err, res) {
-	        		done(err);
-	        	});
+			// Enviar petición para crear notificación 
+			request
+				.post("/notice")
+				.set('Accept', 'application/json')
+	        	.send(data)
+	        	.expect(201)
+        	.then(function(res){
+				// Obtener id de notificación creada
+	        	var id = res.body.notice._id;
+				var delete_data = {
+					"delete":{
+						"_id":		id,
+						"user_id":	user_id
+					}
+				};
+
+				// Enviar petición para eliminar notificación
+				return request.delete("/notice")
+					.send(delete_data)
+					.expect(204)
+					.expect('Content-Type', /application\/json/)				
+        	}, done)
+        	.then(function(res){
+        		var body = res.body;
+
+	        	// Validar que exista deleted y sea 1
+	        	expect(body).to.have.property('deleted', 1);
+
+        		done();
+        	}, done);
+
 		});
 
 		it("Debería eliminar todas las notificaciones del usuario DELETE [/notice]", function(done){
@@ -258,7 +285,16 @@ describe("NotiJS Test", function(){
 			request.delete("/notice")
 				.send(data)
 				.expect(204)
+				.expect('Content-Type', /application\/json/)
 				.end(function(err, res) {
+					var body = res.body;
+
+		        	// Validar que exista deleted
+		        	expect(body).to.have.property('deleted');
+
+		        	// Validar que afected se un entero
+		        	expect(body.deleted).to.be.an('number');
+
 	        		done(err);
 	        	});
 		});
