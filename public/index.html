@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NotiJS</title>
+	<script type="text/javascript" src="http://localhost:2100/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+
+
+<script type="text/javascript">
+	var socket = io.connect('http://localhost:2100');
+
+	socket.on('connected', function () {
+      console.log('Conectado!');
+    });
+</script>
+</body>
+</html>

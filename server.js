@@ -10,6 +10,7 @@ var socketio = require("socket.io");
 var app = module.exports = express();
 
 
+app.use(express["static"](__dirname + '/public'));
 // parse json requests
 app.use(bodyParser.json('application/json'));
 
