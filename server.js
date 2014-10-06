@@ -41,9 +41,9 @@ if (!module.parent) {
                 socket.emit("serverSays", "Conectado!");
 
 
-                socket.on("test", function(){
-                	console.log("test");
-                	socket.emit("serverSays", "mensaje");
+                socket.on("sendMessage", function(data){
+                	console.log(data);
+                	io.sockets.emit("serverSays", data);
                 });
 
             });
