@@ -37,8 +37,15 @@ if (!module.parent) {
             var io = socketio.listen(server);
             
             io.sockets.on('connection', function(socket){
-                socket.emit('connected'); 
-                //Evento creado por nosotros se puede llamar 'pepito'
+                
+                socket.emit("serverSays", "Conectado!");
+
+
+                socket.on("test", function(){
+                	console.log("test");
+                	socket.emit("serverSays", "mensaje");
+                });
+
             });
 		}
 	});
