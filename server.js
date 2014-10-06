@@ -43,6 +43,7 @@ if (!module.parent) {
 
                 socket.on("sendMessage", function(data){
                 	console.log(data);
+                	//socket.broadcast.emit("serverSays", data);
                 	io.sockets.emit("serverSays", data);
                 });
 
