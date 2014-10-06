@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NotiJS</title>
+	<script type="text/javascript" src="http://localhost:2100/socket.io/socket.io.js"></script>
+</head>
+<body>
+<ul id="content">
+</ul>
+
+
+<script type="text/javascript">
+	var socket = io.connect('http://localhost:2100');
+
+	var list = document.getElementById("content");
+
+    socket.on("serverSays", function(message){
+    	console.log(message);
+    	var html = "<li>"+message+"</li>";
+    	list.innerHTML += html;
+    });
+
+</script>
+</body>
+</html>
