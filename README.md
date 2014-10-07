@@ -11,3 +11,6 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	$ npm install
 	$ cp config/params_default.js config/params.js
 ```
+
+### Especificaciónes del API
+   https://github.com/DMalagonH/notijs/blob/master/api.md
