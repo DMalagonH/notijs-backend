@@ -49,51 +49,46 @@ if (!module.parent) {
 				return _.find(connections, {"sockets": [socket_id]});
             }
 
-            function addConnection(user_id, socket_id){
-        		var user_conn = findUserConnectionById(user_id);
-        		
-            	if(!user_conn){
-					user_conn = {
-						"user_id": 	user_id,
-						"sockets": 	[socket_id]  
-					} 
-					connections.push(user_conn);    		
-            	}
-            	else{
-            		user_conn.sockets.push(socket_id);
-            	}
-            }
+            
 
-            function removeConnection(socket_id){
-            	var user_conn = findUserConnectionBySocket(socket_id);
-
-            	if(user_conn){
-            		var i = user_conn.sockets.indexOf(socket_id);
-
-            		if(i > -1){
-            			user_conn.sockets.splice(i, 1);
-            		}
-            	}
-                	
-            }
+            
 
             io.sockets.on('connection', function(socket){
                 
+            	var removeConnection = function(){
+            		var socket_id = socket.id;
+	            	var user_conn = findUserConnectionBySocket(socket_id);
 
-                socket.on("connection", function(data){
+	            	if(user_conn){
+	            		var i = user_conn.sockets.indexOf(socket_id);
 
-                	addConnection(data.user_id, socket.id);
+	            		if(i > -1){
+	            			user_conn.sockets.splice(i, 1);
+	            		}
+	            	}
+	                	
+	            };
 
-	                socket.emit("serverSays", "Conectado!");
-                });
+	            var addConnection = function(data){
+	            	var user_id = data.user_id;
+	            	var socket_id = socket.id;
+	        		var user_conn = findUserConnectionById(user_id);
+	        		
+	            	if(!user_conn){
+						user_conn = {
+							"user_id": 	user_id,
+							"sockets": 	[socket_id]  
+						} 
+						connections.push(user_conn);    		
+	            	}
+	            	else{
+	            		user_conn.sockets.push(socket_id);
+	            	}
+	            };
 
-                socket.on("disconnect", function(){
-                	//removeConnection(data.user_id, socket.id);
-                	console.log("disconnect", socket.id);
-                	removeConnection(socket.id);
+                socket.on("connection", addConnection);
 
-                	//socket.emit("serverSays", "Desconectado!");
-                });
+                socket.on("disconnect", removeConnection);
 
             });
 		}
