@@ -1,5 +1,5 @@
 var request = require('supertest-as-promised');
-var api = require('../index.js');
+var api = require('../server.js');
 var params = require('../config/params');
 var _ = require('lodash');
 var mongoose = require('mongoose');
