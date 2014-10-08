@@ -68,10 +68,21 @@ if (!module.parent) {
 	            	var user_conn = findUserConnectionBySocket(socket_id);
 
 	            	if(user_conn){
-	            		var i = user_conn.sockets.indexOf(socket_id);
-
-	            		if(i > -1){
-	            			user_conn.sockets.splice(i, 1);
+	            		// Si hay mas de una conexión
+	            		if(user_conn.sockets.length > 1){
+		            		var i = user_conn.sockets.indexOf(socket_id);
+		            		// Eliminar id de socket del arreglo de sockets del usuario
+		            		if(i > -1){
+		            			user_conn.sockets.splice(i, 1);
+		            		}
+	            		}
+	            		// Si hay solo una conexión
+	            		else if(user_conn.sockets.length === 1){
+            				var i = connections.indexOf(user_conn);
+            				// Eliminar item de usuario del arreglo de conexiones
+            				if(i > -1){
+		            			connections.splice(i, 1);
+		            		}
 	            		}
 	            	}	                	
 	            };
