@@ -40,8 +40,9 @@ if (!module.parent) {
 			});
             
             var io = socketio.listen(server);
-            
-            io.sockets.on('connection', function(socket){
+            var ns = io.of("/Notijs");
+
+            ns.on('connection', function(socket){
                 
             	var addConnection = function(data){
 	            	var user_id = data.user_id;
@@ -58,6 +59,8 @@ if (!module.parent) {
 	            	else{
 	            		user_conn.sockets.push(socket_id);
 	            	}
+
+	            	socket.emit("serverSays", "Conectado!");
 	            };
 
             	var removeConnection = function(){
