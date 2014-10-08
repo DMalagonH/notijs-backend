@@ -6,9 +6,10 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var params = require("./config/params");
 var socketio = require("socket.io");
+var _ = require("lodash");
 
 var app = module.exports = express();
-
+var connections = [];
 
 app.use(express["static"](__dirname + '/public'));
 // parse json requests
@@ -19,6 +20,10 @@ app.use(bodyParser.json('application/json'));
 */
 var notice = require("./src/controllers/notice");
 app.use(notice);
+
+app.get('/conn', function(req, res){
+	res.json(connections);
+});
 
 
 if (!module.parent) {
@@ -36,15 +41,58 @@ if (!module.parent) {
             
             var io = socketio.listen(server);
             
+            function findUserConnectionById (user_id) {
+            	return _.find(connections, {"user_id": user_id});
+            }
+
+            function findUserConnectionBySocket(socket_id){
+				return _.find(connections, {"sockets": [socket_id]});
+            }
+
+            function addConnection(user_id, socket_id){
+        		var user_conn = findUserConnectionById(user_id);
+        		
+            	if(!user_conn){
+					user_conn = {
+						"user_id": 	user_id,
+						"sockets": 	[socket_id]  
+					} 
+					connections.push(user_conn);    		
+            	}
+            	else{
+            		user_conn.sockets.push(socket_id);
+            	}
+            }
+
+            function removeConnection(socket_id){
+            	var user_conn = findUserConnectionBySocket(socket_id);
+
+            	if(user_conn){
+            		var i = user_conn.sockets.indexOf(socket_id);
+
+            		if(i > -1){
+            			user_conn.sockets.splice(i, 1);
+            		}
+            	}
+                	
+            }
+
             io.sockets.on('connection', function(socket){
                 
-                socket.emit("serverSays", "Conectado!");
 
+                socket.on("connection", function(data){
 
-                socket.on("sendMessage", function(data){
-                	console.log(data);
-                	//socket.broadcast.emit("serverSays", data);
-                	io.sockets.emit("serverSays", data);
+                	addConnection(data.user_id, socket.id);
+
+	                socket.emit("serverSays", "Conectado!");
+                });
+
+                socket.on("disconnect", function(){
+                	//removeConnection(data.user_id, socket.id);
+                	console.log("disconnect", socket.id);
+                	removeConnection(socket.id);
+
+                	//socket.emit("serverSays", "Desconectado!");
                 });
 
             });

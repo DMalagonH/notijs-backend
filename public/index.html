@@ -145,9 +145,13 @@
     <script src="js/sb-admin-2.js"></script>
 
     <script type="text/javascript">
-		var socket = io.connect('http://localhost:2100');
-
 		var list = document.getElementById("notice-list");
+		var socket = io.connect('http://localhost:2100');
+		var user_id = 1;
+
+		socket.emit("connection", {
+			"user_id": 	user_id		
+		});
 
 	    socket.on("serverSays", function(message){
 	    	console.log(message);
