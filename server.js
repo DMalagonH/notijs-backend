@@ -41,35 +41,9 @@ if (!module.parent) {
             
             var io = socketio.listen(server);
             
-            function findUserConnectionById (user_id) {
-            	return _.find(connections, {"user_id": user_id});
-            }
-
-            function findUserConnectionBySocket(socket_id){
-				return _.find(connections, {"sockets": [socket_id]});
-            }
-
-            
-
-            
-
             io.sockets.on('connection', function(socket){
                 
-            	var removeConnection = function(){
-            		var socket_id = socket.id;
-	            	var user_conn = findUserConnectionBySocket(socket_id);
-
-	            	if(user_conn){
-	            		var i = user_conn.sockets.indexOf(socket_id);
-
-	            		if(i > -1){
-	            			user_conn.sockets.splice(i, 1);
-	            		}
-	            	}
-	                	
-	            };
-
-	            var addConnection = function(data){
+            	var addConnection = function(data){
 	            	var user_id = data.user_id;
 	            	var socket_id = socket.id;
 	        		var user_conn = findUserConnectionById(user_id);
@@ -85,6 +59,27 @@ if (!module.parent) {
 	            		user_conn.sockets.push(socket_id);
 	            	}
 	            };
+
+            	var removeConnection = function(){
+            		var socket_id = socket.id;
+	            	var user_conn = findUserConnectionBySocket(socket_id);
+
+	            	if(user_conn){
+	            		var i = user_conn.sockets.indexOf(socket_id);
+
+	            		if(i > -1){
+	            			user_conn.sockets.splice(i, 1);
+	            		}
+	            	}	                	
+	            };
+
+	            function findUserConnectionById (user_id) {
+	            	return _.find(connections, {"user_id": user_id});
+	            }
+
+	            function findUserConnectionBySocket(socket_id){
+					return _.find(connections, {"sockets": [socket_id]});
+	            }
 
                 socket.on("connection", addConnection);
 
