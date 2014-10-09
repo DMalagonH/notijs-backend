@@ -8,28 +8,11 @@ var params = require("./config/params");
 var socketio = require("socket.io");
 
 var app = module.exports = express();
-var connections = [];
 
+// Static files server
 app.use(express["static"](__dirname + '/public'));
 // parse json requests
 app.use(bodyParser.json('application/json'));
-
-/**
-* Routes
-*/
-var NoticeController = require("./src/controllers/notice");
-app.use(NoticeController);
-
-
-
-app.get('/conn', function(req, res){
-	res.json(connections);
-});
-
-
-var sockets = require("./src/SocketHandler")();
-var socketHandler = sockets.handler;
-connections = sockets.connections;
 
 
 if (!module.parent) {
@@ -45,10 +28,24 @@ if (!module.parent) {
 				console.log("Notijs listening in port", params.http_port);
 			});
             
+			// Socket handler
+			var sockets = require("./src/SocketHandler")();
+			var socketHandler = sockets.handler;
+			var connections = sockets.connections;
+
+            // Iniciar socket
             var io = socketio.listen(server);
             var ns = io.of("/Notijs");
+            io.on('connection', socketHandler);
 
-            ns.on('connection', socketHandler);
+            // Controllers
+			var NoticeController = require("./src/controllers/notice")(io);
+			app.use(NoticeController);
 		}
 	});
+}
+else{
+	// Controllers
+	var NoticeController = require("./src/controllers/notice")(null);
+	app.use(NoticeController);
 }
