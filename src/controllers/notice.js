@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var v = require('validate-obj');
+var _ = require("lodash");
 
 var app = express();
 
@@ -12,7 +13,8 @@ var Model = require("../models/notice");
 module.exports = function(params){
 
 	var io = params.io || false;
-	var socketHandler = params.socketHandler || false;
+	//var socketHandler = params.socketHandler || false;
+	var connections = params.connections || false;
 
 	// Expresiones de validación para parametros enviados en los request
 	var RequestValExp = {
@@ -226,12 +228,13 @@ module.exports = function(params){
 	var createFlash = function(req, res){
 		var data = req.body;
 		var flash_notice = data.notice;
+		var users = data.users || false;
 
 		// Validar parámetros del request
 		var val_errs = v.hasErrors(flash_notice, RequestValExp.createNoticeFlash);
 
 		if(!val_errs){
-			emitFlash(flash_notice);
+			emitFlashNotice(flash_notice, users);
 			res.status(200).send();
 		}
 		else{
@@ -241,10 +244,38 @@ module.exports = function(params){
 		}
 	};
 
-	var emitFlash = function(notice){
+	var emitFlashNotice = function(notice, users){
 		if(io){
-			io.sockets.emit("serverSays", "flash notice");
-		}
+			if(!users){
+				// Enviar notificación instantanea a todos los usuarios
+				io.sockets.emit("flashNotice", notice);
+			}
+			else{
+				//var connections = socketHandler.connections;
+				var sockets_ids = [];
+
+
+				_.forEach(users, function(user_id){
+					console.log("Buscar", user_id, "en", connections);
+					var user_conn = _.find(connections, {"user_id": user_id});
+
+					console.log("user_conn", user_conn);
+
+					if(user_conn){
+						sockets_ids.concat(user_conn.sockets);
+					}
+				});
+
+				
+				//console.log("users_ids solicitados", users);
+				//console.log("sockets encontrados", sockets_ids);
+				
+
+
+				// Enviar notificación a los usuarios indicados
+				// ...
+			}
+		}	
 	}
 
 

@@ -42,7 +42,7 @@ if (!module.parent) {
             // Controllers
 			var NoticeController = require("./src/controllers/notice")({
 				io: io,
-				socketHandler: socketHandler
+				connections: connections
 			});
 			app.use(NoticeController);
 

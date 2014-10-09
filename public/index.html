@@ -147,7 +147,7 @@
     <script type="text/javascript">
 		var list = document.getElementById("notice-list");
 		var socket = io.connect();
-		var user_id = 1;
+		var user_id = "1";
 
 		socket.emit("connection", {
 			"user_id": 	user_id		
@@ -156,6 +156,12 @@
 	    socket.on("serverSays", function(message){
 	    	console.log(message);
 	    	var html = "<li>"+message+"</li>";
+	    	list.innerHTML += html;
+	    });
+
+	    socket.on("flashNotice", function(data){
+	    	console.log(data);
+	    	var html = "<li>"+data.title+"</li>";
 	    	list.innerHTML += html;
 	    });
 

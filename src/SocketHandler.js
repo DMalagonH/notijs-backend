@@ -16,9 +16,10 @@ module.exports = function(params){
 	return {
 		handler: function(socket){
 		                
+		    var socket_id = socket.id;
+
 			var addConnection = function(data){
 		    	var user_id = data.user_id;
-		    	var socket_id = socket.id;
 				var user_conn = findUserConnectionById(user_id);
 				
 		    	if(!user_conn){
@@ -36,7 +37,6 @@ module.exports = function(params){
 		    };
 
 			var removeConnection = function(){
-				var socket_id = socket.id;
 		    	var user_conn = findUserConnectionBySocket(socket_id);
 
 		    	if(user_conn){
