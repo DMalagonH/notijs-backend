@@ -33,15 +33,17 @@ if (!module.parent) {
             var ns = io.of("/Notijs");
             
 			// Socket handler
-			var sockets = require("./src/SocketHandler")(io, ns);
-			var socketHandler = sockets.handler;
-			var connections = sockets.connections;
+			var socketHandler = require("./src/SocketHandler")({io:io});
+			var connections = socketHandler.connections;
             io.on('connection', function(socket){
-            	socketHandler(socket);
+            	socketHandler.handler(socket);
             });
 
             // Controllers
-			var NoticeController = require("./src/controllers/notice")(io);
+			var NoticeController = require("./src/controllers/notice")({
+				io: io,
+				socketHandler: socketHandler
+			});
 			app.use(NoticeController);
 
 			app.get("/conn", function(req, res){
@@ -52,6 +54,6 @@ if (!module.parent) {
 }
 else{
 	// Controllers
-	var NoticeController = require("./src/controllers/notice")(null);
+	var NoticeController = require("./src/controllers/notice")({});
 	app.use(NoticeController);
 }

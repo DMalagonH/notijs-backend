@@ -1,7 +1,17 @@
 var _ = require("lodash");
 var connections = [];
 
-module.exports = function(io, namespace){
+module.exports = function(params){
+
+	var io = params.io;
+
+	function findUserConnectionById (user_id) {
+    	return _.find(connections, {"user_id": user_id});
+    }
+
+    function findUserConnectionBySocket(socket_id){
+		return _.find(connections, {"sockets": [socket_id]});
+    }
 
 	return {
 		handler: function(socket){
@@ -46,18 +56,12 @@ module.exports = function(io, namespace){
 		    	}	                	
 		    };
 
-		    function findUserConnectionById (user_id) {
-		    	return _.find(connections, {"user_id": user_id});
-		    }
-
-		    function findUserConnectionBySocket(socket_id){
-				return _.find(connections, {"sockets": [socket_id]});
-		    }
-
 		    socket.on("connection", addConnection);
 
 		    socket.on("disconnect", removeConnection);
 		},
-		connections: connections
+		connections: connections,
+		findUserConnectionById: findUserConnectionById,
+		findUserConnectionBySocket: findUserConnectionBySocket
 	};
 }

@@ -9,8 +9,10 @@ var app = express();
 // Modelo
 var Model = require("../models/notice");
 
-module.exports = function(io){
+module.exports = function(params){
 
+	var io = params.io || false;
+	var socketHandler = params.socketHandler || false;
 
 	// Expresiones de validación para parametros enviados en los request
 	var RequestValExp = {
