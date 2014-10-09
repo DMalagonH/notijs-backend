@@ -27,20 +27,26 @@ if (!module.parent) {
 			var server = app.listen(params.http_port, function(){
 				console.log("Notijs listening in port", params.http_port);
 			});
-            
-			// Socket handler
-			var sockets = require("./src/SocketHandler")();
-			var socketHandler = sockets.handler;
-			var connections = sockets.connections;
 
             // Iniciar socket
             var io = socketio.listen(server);
             var ns = io.of("/Notijs");
-            io.on('connection', socketHandler);
+            
+			// Socket handler
+			var sockets = require("./src/SocketHandler")(io, ns);
+			var socketHandler = sockets.handler;
+			var connections = sockets.connections;
+            io.on('connection', function(socket){
+            	socketHandler(socket);
+            });
 
             // Controllers
 			var NoticeController = require("./src/controllers/notice")(io);
 			app.use(NoticeController);
+
+			app.get("/conn", function(req, res){
+				res.json(connections);
+			});
 		}
 	});
 }

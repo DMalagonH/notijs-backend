@@ -1,7 +1,7 @@
 var _ = require("lodash");
 var connections = [];
 
-module.exports = function(){
+module.exports = function(io, namespace){
 
 	return {
 		handler: function(socket){
