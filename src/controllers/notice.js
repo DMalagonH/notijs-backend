@@ -11,7 +11,7 @@ var Model = require("../models/notice");
 
 module.exports = function(io){
 
-	
+
 	// Expresiones de validación para parametros enviados en los request
 	var RequestValExp = {
 		createNotice: {
@@ -38,7 +38,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para enlistar notificaciones
+	 * Handler de petición para enlistar notificaciones
 	 */
 	var getList = function(req, res){
 	    var user_id = parseInt(req.params.user_id);
@@ -68,7 +68,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para obtener número de notificaciones sin leer
+	 * Handler de petición para obtener número de notificaciones sin leer
 	 */
 	var getUnread = function(req, res){	
 		var user_id = parseInt(req.params.user_id);
@@ -92,7 +92,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para crear una notificacion
+	 * Handler de petición para crear una notificacion
 	 */
 	var create = function(req, res){
 		// Obtener datos del request
@@ -124,7 +124,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para marcar notificaciones como leídas
+	 * Handler de petición para marcar notificaciones como leídas
 	 */
 	var markAsRead = function(req, res){
 		// Obtener datos del request
@@ -177,7 +177,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para eliminar notificaciones
+	 * Handler de petición para eliminar notificaciones
 	 */
 	var deleteNotice = function(req, res){
 		// Obtener datos del request
@@ -219,7 +219,7 @@ module.exports = function(io){
 	};
 
 	/**
-	 * Función para enviar notificaciones instantáneas
+	 * Handler de petición para enviar notificaciones instantáneas
 	 */
 	var createFlash = function(req, res){
 		var data = req.body;
@@ -229,7 +229,7 @@ module.exports = function(io){
 		var val_errs = v.hasErrors(flash_notice, RequestValExp.createNoticeFlash);
 
 		if(!val_errs){
-
+			emitFlash(flash_notice);
 			res.status(200).send();
 		}
 		else{
@@ -238,6 +238,13 @@ module.exports = function(io){
 			});
 		}
 	};
+
+	var emitFlash = function(notice){
+		if(io){
+			io.sockets.emit("serverSays", "flash notice");
+		}
+	}
+
 
 	app.get('/notice/list/:user_id/:num_items?', getList);
 	app.get("/notice/unread/:user_id", getUnread);
