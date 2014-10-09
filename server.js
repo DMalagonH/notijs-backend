@@ -18,12 +18,7 @@ app.use(bodyParser.json('application/json'));
 * Routes
 */
 var NoticeController = require("./src/controllers/notice");
-app.get('/notice/list/:user_id/:num_items?', NoticeController.getList);
-app.get("/notice/unread/:user_id", NoticeController.getUnread);
-app.post("/notice", NoticeController.create);
-app.patch("/notice/read", NoticeController.markAsRead);
-app.delete("/notice", NoticeController.delete);
-app.post("/notice/flash", NoticeController.createFlash);
+app.use(NoticeController);
 
 
 

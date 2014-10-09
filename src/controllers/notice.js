@@ -1,7 +1,10 @@
 /**
  * Module dependencies
  */
+var express = require('express');
 var v = require('validate-obj');
+
+var app = express();
 
 // Modelo
 var Model = require("../models/notice");
@@ -235,11 +238,11 @@ var createFlash = function(req, res){
 	}
 };
 
-module.exports = {
-	getList: 		getList,
-	getUnread: 		getUnread,
-	create: 		create,
-	markAsRead: 	markAsRead,
-	delete: 		deleteNotice,
-	createFlash: 	createFlash
-};
+app.get('/notice/list/:user_id/:num_items?', getList);
+app.get("/notice/unread/:user_id", getUnread);
+app.post("/notice", create);
+app.patch("/notice/read", markAsRead);
+app.delete("/notice", deleteNotice);
+app.post("/notice/flash", createFlash);
+
+module.exports = app;
