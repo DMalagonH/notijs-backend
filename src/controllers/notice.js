@@ -1,14 +1,10 @@
 /**
  * Module dependencies
  */
-var express = require('express');
-var _ = require("lodash");
 var v = require('validate-obj');
 
-var app = express();
-
 // Modelo
-var Notice = require("../models/notice");
+var Model = require("../models/notice");
 
 /**
  * Expresiones de validación para parametros enviados en los request
@@ -40,12 +36,12 @@ var RequestValExp = {
 /**
  * Función para enlistar notificaciones
  */
-app.get('/notice/list/:user_id/:num_items?', function(req, res){
+var getList = function(req, res){
     var user_id = parseInt(req.params.user_id);
     var num_items = parseInt(req.params.num_items) || null;
 
     // Obtener notificaciones del usuario ordenadas por fecha descendentemente y con el límite indicado
-    Notice.find({
+    Model.find({
     	"user_id": user_id
     })
     .sort({
@@ -65,16 +61,15 @@ app.get('/notice/list/:user_id/:num_items?', function(req, res){
 	    	res.status(500).send();
   		}
     });
-});
+};
 
 /**
  * Función para obtener número de notificaciones sin leer
  */
-app.get("/notice/unread/:user_id", function(req, res){
-	
+var getUnread = function(req, res){	
 	var user_id = parseInt(req.params.user_id);
 
-	Notice.count({
+	Model.count({
 		"user_id": 	user_id, 
 		"read": 	false
 	})
@@ -90,12 +85,12 @@ app.get("/notice/unread/:user_id", function(req, res){
 	    	res.status(500).send();
   		}
 	});
-});
+};
 
 /**
  * Función para crear una notificacion
  */
-app.post("/notice", function(req, res){
+var create = function(req, res){
 	// Obtener datos del request
 	var data = req.body;
 	var new_notice = data.notice;
@@ -104,7 +99,7 @@ app.post("/notice", function(req, res){
 	var val_errs = v.hasErrors(new_notice, RequestValExp.createNotice);
 	if(!val_errs){
 		// Registrar notificación en MongoDB
-		Notice.create(new_notice, function(err, notice){
+		Model.create(new_notice, function(err, notice){
 			if(!err){
 				// Response
 				res.status(201)
@@ -122,12 +117,12 @@ app.post("/notice", function(req, res){
 			errors: val_errs
 		});
 	}
-});
+};
 
 /**
  * Función para marcar notificaciones como leídas
  */
-app.patch("/notice/read", function(req, res){
+var markAsRead = function(req, res){
 	// Obtener datos del request
 	var data = req.body;
 	var marks = data.mark_as_read;
@@ -147,7 +142,7 @@ app.patch("/notice/read", function(req, res){
 			find._id = marks.id;
 		}
 
-		Notice.update(find, 
+		Model.update(find, 
 			{
 				$set:{
 					"read": true
@@ -175,12 +170,12 @@ app.patch("/notice/read", function(req, res){
 			errors: val_errs
 		});
 	}
-});
+};
 
 /**
  * Función para eliminar notificaciones
  */
-app.delete("/notice", function(req, res){
+var deleteNotice = function(req, res){
 	// Obtener datos del request
 	var data = req.body;
 	var marks = data.delete;
@@ -198,7 +193,7 @@ app.delete("/notice", function(req, res){
 			find._id = marks.id;
 		}
 
-		Notice.remove(find)
+		Model.remove(find)
 		.exec(function(err, num_deleted){
 			if(!err){
 				res.status(200)
@@ -217,12 +212,12 @@ app.delete("/notice", function(req, res){
 			errors: val_errs
 		});
 	}
-});
+};
 
 /**
  * Función para enviar notificaciones instantáneas
  */
-app.post("/notice/flash", function(req, res){
+var createFlash = function(req, res){
 	var data = req.body;
 	var flash_notice = data.notice;
 
@@ -238,6 +233,13 @@ app.post("/notice/flash", function(req, res){
 			errors: val_errs
 		});
 	}
-});
+};
 
-module.exports = app;
+module.exports = {
+	getList: 		getList,
+	getUnread: 		getUnread,
+	create: 		create,
+	markAsRead: 	markAsRead,
+	delete: 		deleteNotice,
+	createFlash: 	createFlash
+};
