@@ -10,6 +10,8 @@ var _ = require("lodash");
 
 var app = module.exports = express();
 var connections = [];
+var io;
+var Socket;
 
 app.use(express["static"](__dirname + '/public'));
 // parse json requests
@@ -46,11 +48,13 @@ if (!module.parent) {
 				console.log("Notijs listening in port", params.http_port);
 			});
             
-            var io = socketio.listen(server);
+            io = socketio.listen(server);
             var ns = io.of("/Notijs");
 
             ns.on('connection', function(socket){
                 
+            	Socket = socket;
+
             	var addConnection = function(data){
 	            	var user_id = data.user_id;
 	            	var socket_id = socket.id;
