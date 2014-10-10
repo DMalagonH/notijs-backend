@@ -1,6 +1,6 @@
 ## Especificaciones del API
 
-### Metodos HTTP permitidos
+### Métodos HTTP permitidos
 
 |  Método  |              Descripción               	|
 | -------- | -------------------------------------------|

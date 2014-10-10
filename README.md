@@ -12,5 +12,8 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 	$ cp config/params_default.js config/params.js
 ```
 
-### Especificaciónes del API
-   https://github.com/DMalagonH/notijs/blob/master/api.md
+### Especificaciones del API
+   https://github.com/DMalagonH/notijs/blob/master/docs/api.md
+
+### Especificaciones del socket
+   https://github.com/DMalagonH/notijs/blob/master/docs/socket.md

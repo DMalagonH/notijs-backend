@@ -107,7 +107,7 @@ module.exports = function(params){
 			Model.create(new_notice, function(err, notice){
 				if(!err){
 					// Enviar socket
-					emitNotice(new_notice);
+					emitNotice(notice.toJSON());
 					
 					// Response
 					res.status(201)
