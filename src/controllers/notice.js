@@ -12,7 +12,7 @@ var Model = require("../models/notice");
 
 module.exports = function(params){
 
-	var io = params.io || false;
+	var NSocket = params.NSocket || false;
 	//var socketHandler = params.socketHandler || false;
 	var connections = params.connections || false;
 
@@ -245,13 +245,14 @@ module.exports = function(params){
 	};
 
 	var emitFlashNotice = function(notice, users){
-		if(io){
+		if(NSocket){
 			if(!users){
 				// Enviar notificación instantanea a todos los usuarios
-				io.sockets.emit("flashNotice", notice);
+				NSocket.emit("flashNotice", notice);
 			}
 			else{
 				//var connections = socketHandler.connections;
+				/*
 				var sockets_ids = [];
 
 
@@ -266,7 +267,7 @@ module.exports = function(params){
 					}
 				});
 
-				
+				*/
 				//console.log("users_ids solicitados", users);
 				//console.log("sockets encontrados", sockets_ids);
 				

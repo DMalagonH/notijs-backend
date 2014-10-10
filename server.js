@@ -30,19 +30,22 @@ if (!module.parent) {
 
             // Iniciar socket
             var io = socketio.listen(server);
-            var ns = io.of("/Notijs");
+            var NSocket = io.of("/Notijs");
             
 			// Socket handler
-			var socketHandler = require("./src/SocketHandler")({io:io});
+			var socketHandler = require("./src/SocketHandler")({
+				io: 		io,
+				NSocket: 	NSocket
+			});
 			var connections = socketHandler.connections;
-            io.on('connection', function(socket){
+            NSocket.on('connection', function(socket){
             	socketHandler.handler(socket);
             });
 
             // Controllers
 			var NoticeController = require("./src/controllers/notice")({
-				io: io,
-				connections: connections
+				NSocket: 		NSocket,
+				connections: 	connections
 			});
 			app.use(NoticeController);
 

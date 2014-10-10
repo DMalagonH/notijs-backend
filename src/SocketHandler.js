@@ -4,6 +4,7 @@ var connections = [];
 module.exports = function(params){
 
 	var io = params.io;
+	var NSocket = params.NSocket;
 
 	function findUserConnectionById (user_id) {
     	return _.find(connections, {"user_id": user_id});
@@ -34,6 +35,8 @@ module.exports = function(params){
 		    	}
 
 		    	socket.emit("serverSays", "Conectado!");
+		    	socket.broadcast.emit("serverSays", "Un nuevo conectado!");
+		    	NSocket.emit("serverSays", "Estan conectados!");
 		    };
 
 			var removeConnection = function(){
