@@ -3,7 +3,6 @@
  */
 var express = require('express');
 var v = require('validate-obj');
-var _ = require("lodash");
 
 var app = express();
 
@@ -107,6 +106,9 @@ module.exports = function(params){
 			// Registrar notificación en MongoDB
 			Model.create(new_notice, function(err, notice){
 				if(!err){
+					// Enviar socket
+					emitNotice(new_notice);
+					
 					// Response
 					res.status(201)
 					.json({
@@ -241,6 +243,17 @@ module.exports = function(params){
 			});
 		}
 	};
+
+	/*
+	 * Función para emitir socket de notificaciones
+ 	 */
+	var emitNotice = function(notice){
+		if(NSocket){
+			var user_id = notice.user_id;
+			// Enviar notificación al room de usuario
+			NSocket.to(user_id).emit("notice", notice); 
+		}
+	}
 
 	/**
 	 * Función para emitir socket de notificaciones instantáneas

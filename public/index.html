@@ -168,6 +168,12 @@
 	    	list.innerHTML += html;
 	    });
 
+	    socket.on("notice", function(data){
+	    	console.log(data);
+	    	var html = "<li>"+data.title+"</li>";
+	    	list.innerHTML += html;
+	    });
+
 	    user.innerHTML = "user id:" + user_id;
 
 	</script>
