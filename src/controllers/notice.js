@@ -242,16 +242,20 @@ module.exports = function(params){
 		}
 	};
 
+	/**
+	 * Función para emitir socket de notificaciones instantáneas
+	 */
 	var emitFlashNotice = function(notice, users){
 		if(NSocket){
 			if(!users){
-				// Enviar notificación instantanea a todos los usuarios
+				// Enviar notificación instántanea a todos los usuarios
 				NSocket.emit("flashNotice", notice);
 			}
 			else{
+				// Recorrer ids de usuarios
 				users.forEach(function(user_id){
-					var room = user_id;
-					NSocket.to(room).emit("flashNotice", notice); 
+					// Enviar notificación instantánea al room de usuario
+					NSocket.to(user_id).emit("flashNotice", notice); 
 				});
 			}
 		}	
