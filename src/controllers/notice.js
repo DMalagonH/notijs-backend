@@ -251,30 +251,10 @@ module.exports = function(params){
 				NSocket.emit("flashNotice", notice);
 			}
 			else{
-				//var connections = socketHandler.connections;
-				/*
-				var sockets_ids = [];
-
-
 				_.forEach(users, function(user_id){
-					console.log("Buscar", user_id, "en", connections);
-					var user_conn = _.find(connections, {"user_id": user_id});
-
-					console.log("user_conn", user_conn);
-
-					if(user_conn){
-						sockets_ids.concat(user_conn.sockets);
-					}
+					var room = user_id;
+					NSocket.to(room).emit("flashNotice", notice); 
 				});
-
-				*/
-				//console.log("users_ids solicitados", users);
-				//console.log("sockets encontrados", sockets_ids);
-				
-
-
-				// Enviar notificación a los usuarios indicados
-				// ...
 			}
 		}	
 	}

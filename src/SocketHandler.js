@@ -22,7 +22,7 @@ module.exports = function(params){
 			var addConnection = function(data){
 		    	var user_id = data.user_id;
 				var user_conn = findUserConnectionById(user_id);
-				var room = user_id + "room";
+				var room = user_id;
 				socket.join(room);
 
 		    	if(!user_conn){
