@@ -121,6 +121,7 @@
                     <div class="alert alert-info">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="#" class="alert-link">Alert Link</a>.
                     </div>
+                    <h3 id="user-id"></h3>
                     <ul id="notice-list"></ul>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -146,8 +147,10 @@
 
     <script type="text/javascript">
 		var list = document.getElementById("notice-list");
+		var user = document.getElementById('user-id');
+
 		var socket = io.connect("/Notijs");
-		var user_id = "1";
+		var user_id = Math.floor(Math.random() * (3 - 1)) + 1;
 
 		socket.emit("connection", {
 			"user_id": 	user_id		
@@ -165,6 +168,7 @@
 	    	list.innerHTML += html;
 	    });
 
+	    user.innerHTML = "user id:" + user_id;
 	</script>
 
 </body>

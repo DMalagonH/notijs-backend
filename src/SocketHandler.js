@@ -22,7 +22,9 @@ module.exports = function(params){
 			var addConnection = function(data){
 		    	var user_id = data.user_id;
 				var user_conn = findUserConnectionById(user_id);
-				
+				var room = user_id + "room";
+				socket.join(room);
+
 		    	if(!user_conn){
 					user_conn = {
 						"user_id": 	user_id,
@@ -34,9 +36,10 @@ module.exports = function(params){
 		    		user_conn.sockets.push(socket_id);
 		    	}
 
-		    	socket.emit("serverSays", "Conectado!");
-		    	socket.broadcast.emit("serverSays", "Un nuevo conectado!");
-		    	NSocket.emit("serverSays", "Estan conectados!");
+		    	socket.emit("serverSays", "Conectado!"); // Enviar mensaje al socket del usuario
+		    	socket.broadcast.emit("serverSays", "Un nuevo conectado!"); // Enviar mensaje a los demás usuarios
+		    	NSocket.emit("serverSays", "Estan conectados!"); // Enviar mensaje a todos los usuarios
+		    	NSocket.to(room).emit("serverSays", "Mensaje al room de usuario"); // Enviar mensaje a room de usuario
 		    };
 
 			var removeConnection = function(){
