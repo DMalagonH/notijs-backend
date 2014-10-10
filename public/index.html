@@ -156,12 +156,6 @@
 			"user_id": 	user_id.toString()		
 		});
 
-	    socket.on("serverSays", function(message){
-	    	console.log(message);
-	    	var html = "<li>"+message+"</li>";
-	    	list.innerHTML += html;
-	    });
-
 	    socket.on("flashNotice", function(data){
 	    	console.log(data);
 	    	var html = "<li>"+data.title+"</li>";
