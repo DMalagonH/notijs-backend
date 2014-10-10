@@ -37,21 +37,17 @@ if (!module.parent) {
 				io: 		io,
 				NSocket: 	NSocket
 			});
-			var connections = socketHandler.connections;
+			
             NSocket.on('connection', function(socket){
             	socketHandler.handler(socket);
             });
 
             // Controllers
 			var NoticeController = require("./src/controllers/notice")({
-				NSocket: 		NSocket,
-				connections: 	connections
+				NSocket: 		NSocket
 			});
 			app.use(NoticeController);
 
-			app.get("/conn", function(req, res){
-				res.json(connections);
-			});
 		}
 	});
 }

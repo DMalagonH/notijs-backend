@@ -13,8 +13,6 @@ var Model = require("../models/notice");
 module.exports = function(params){
 
 	var NSocket = params.NSocket || false;
-	//var socketHandler = params.socketHandler || false;
-	var connections = params.connections || false;
 
 	// Expresiones de validación para parametros enviados en los request
 	var RequestValExp = {
@@ -251,7 +249,7 @@ module.exports = function(params){
 				NSocket.emit("flashNotice", notice);
 			}
 			else{
-				_.forEach(users, function(user_id){
+				users.forEach(function(user_id){
 					var room = user_id;
 					NSocket.to(room).emit("flashNotice", notice); 
 				});
@@ -259,14 +257,12 @@ module.exports = function(params){
 		}	
 	}
 
-
 	app.get('/notice/list/:user_id/:num_items?', getList);
 	app.get("/notice/unread/:user_id", getUnread);
 	app.post("/notice", create);
 	app.patch("/notice/read", markAsRead);
 	app.delete("/notice", deleteNotice);
 	app.post("/notice/flash", createFlash);
-
 
 	return app;
 }
