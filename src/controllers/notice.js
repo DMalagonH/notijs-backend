@@ -30,7 +30,7 @@ module.exports = function(params){
 			id:			[v.isString],
 			user_id: 	[v.required, v.isString]
 		},
-		createNoticeFlash: {
+		createNoticeMulti: {
 			title: 		[v.required, v.isString],
 			body: 		[v.required, v.isString],
 			img: 		[v.isString],
@@ -41,7 +41,7 @@ module.exports = function(params){
 	/**
 	 * Handler de petición para enlistar notificaciones
 	 */
-	var getList = function(req, res){
+	var getListAction = function(req, res){
 	    var user_id = parseInt(req.params.user_id);
 	    var num_items = parseInt(req.params.num_items) || null;
 
@@ -71,7 +71,7 @@ module.exports = function(params){
 	/**
 	 * Handler de petición para obtener número de notificaciones sin leer
 	 */
-	var getUnread = function(req, res){	
+	var getUnreadAction = function(req, res){	
 		var user_id = parseInt(req.params.user_id);
 
 		Model.count({
@@ -93,9 +93,9 @@ module.exports = function(params){
 	};
 
 	/**
-	 * Handler de petición para crear una notificacion
+	 * Handler de petición para crear una notificación
 	 */
-	var create = function(req, res){
+	var createAction = function(req, res){
 		// Obtener datos del request
 		var data = req.body;
 		var new_notice = data.notice;
@@ -128,9 +128,47 @@ module.exports = function(params){
 	};
 
 	/**
+	 * Handler de petición para crear una notificación para varios usuarios
+	 */
+	var createMultiAction = function(req, res){
+		var data = req.body;
+		var notice = data.notice;
+		var users = data.users || false;
+
+		// Validar parámetros del request
+		var val_errs = v.hasErrors(notice, RequestValExp.createNoticeMulti);
+
+		if(!val_errs && users){
+			// Recorrer ids de usuarios
+			users.forEach(function(user_id){
+				var new_notice = notice;
+				new_notice.user_id = user_id;
+
+				// Registrar notificación en MongoDB
+				Model.create(new_notice, function(err, notice){
+					if(!err){
+						// Enviar socket
+						emitNotice(notice.toJSON());
+					}
+					else{
+						errs++;
+					}
+				});
+			});
+
+			res.status(200).send();
+		}
+		else{
+			res.status(400).json({
+				errors: val_errs
+			});
+		}
+	};
+
+	/**
 	 * Handler de petición para marcar notificaciones como leídas
 	 */
-	var markAsRead = function(req, res){
+	var markAsReadAction = function(req, res){
 		// Obtener datos del request
 		var data = req.body;
 		var marks = data.mark_as_read;
@@ -183,7 +221,7 @@ module.exports = function(params){
 	/**
 	 * Handler de petición para eliminar notificaciones
 	 */
-	var deleteNotice = function(req, res){
+	var deleteNoticeAction = function(req, res){
 		// Obtener datos del request
 		var data = req.body;
 		var marks = data.delete;
@@ -225,13 +263,13 @@ module.exports = function(params){
 	/**
 	 * Handler de petición para enviar notificaciones instantáneas
 	 */
-	var createFlash = function(req, res){
+	var createFlashAction = function(req, res){
 		var data = req.body;
 		var flash_notice = data.notice;
 		var users = data.users || false;
 
 		// Validar parámetros del request
-		var val_errs = v.hasErrors(flash_notice, RequestValExp.createNoticeFlash);
+		var val_errs = v.hasErrors(flash_notice, RequestValExp.createNoticeMulti);
 
 		if(!val_errs){
 			emitFlashNotice(flash_notice, users);
@@ -274,12 +312,13 @@ module.exports = function(params){
 		}	
 	}
 
-	app.get('/notice/list/:user_id/:num_items?', getList);
-	app.get("/notice/unread/:user_id", getUnread);
-	app.post("/notice", create);
-	app.patch("/notice/read", markAsRead);
-	app.delete("/notice", deleteNotice);
-	app.post("/notice/flash", createFlash);
+	app.get('/notice/list/:user_id/:num_items?', getListAction);
+	app.get("/notice/unread/:user_id", getUnreadAction);
+	app.post("/notice", createAction);
+	app.post("/notice/multi", createMultiAction);
+	app.patch("/notice/read", markAsReadAction);
+	app.delete("/notice", deleteNoticeAction);
+	app.post("/notice/flash", createFlashAction);
 
 	return app;
 }

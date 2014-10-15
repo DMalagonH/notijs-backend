@@ -127,7 +127,7 @@ describe("NotiJS Test", function(){
 					"url": 		"http://google.com",
 					"user_id": 	"1"	
 				}
-			}
+			};
 
 			request
 				.post("/notice")
@@ -155,6 +155,29 @@ describe("NotiJS Test", function(){
 	    			
 	    			done(err);
 	        	});
+		});
+	});
+
+	describe("Crear notificaciones para varios usuarios", function(){
+
+		it("Debería crear una notificación para varios usuarios POST [/notice/multi]", function(done){
+			var data = {
+				"notice":{
+					"title": 	"Nueva notificación para varios usuarios",
+					"body": 	"Contenido de la nueva notificación",
+					"img":		"/imgs/image.jpg",
+					"url": 		"http://google.com",
+				},
+				"users": ["1", "2", "3"]
+			};
+
+			request.post("/notice/multi")
+			.set('Accept', 'application/json')
+        	.send(data)
+        	.expect(200)
+        	.end(function(err, res) {
+				done(err);
+        	});        		
 		});
 	});
 

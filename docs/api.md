@@ -71,7 +71,7 @@
 		"unread": 5
 	}
 
-### Crear notificaciones
+### Crear notificación
 	Request [POST] /notice
 	{
 		"notice":{
@@ -96,6 +96,23 @@
 		}
 	}
 
+### Crear notificación para varios usuarios
+	Request [POST] /notice/multi
+	{
+		"notice":{
+			"title":	"Nueva notificación",
+			"body":		"Contenido de la nueva notificación",
+			"img":		"/imgs/image.jpg",							//Opcional
+			"url":		"http://url/de/la/notificación"				//Opcional
+		},
+		"users":[
+			"1",
+			"2",
+			"3",
+			...
+		]
+	}
+	Response code:	200
 
 ### Marcar notificación como leída
 	Request [PATCH] /notice/read
@@ -153,7 +170,7 @@
 		deleted: 20
 	}
 
-### Enviar notificación instantanea a todos los usuarios
+### Enviar notificación instantánea a todos los usuarios
 	Request [POST] /notice/flash
 	{
 		"notice":{
@@ -163,8 +180,7 @@
 			"url":		"http://url/de/la/notificación"				//Opcional
 		}
 	}
-	Response code:
-	200
+	Response code:	200
 
 
 ### Enviar notificación instantanea a algunos usuarios
@@ -183,5 +199,4 @@
 			...
 		]
 	}
-	Response code:
-	200
+	Response code:	200
