@@ -13,10 +13,10 @@ Notijs es una aplicación que permite el control de notificaciones para usuarios
 ```
 
 ### Especificaciones del API
-   https://github.com/DMalagonH/notijs/blob/master/docs/api.md
+[Ver especificaciones](https://github.com/DMalagonH/notijs-backend/blob/master/docs/api.md)
 
 ### Especificaciones del socket
-   https://github.com/DMalagonH/notijs/blob/master/docs/socket.md
+[Ver especificaciones](https://github.com/DMalagonH/notijs-backend/blob/master/docs/socket.md)
 
 ## Frontend
-    AngularJS: https://github.com/DMalagonH/notijs-frontend-angular
+AngularJS: [AngularJS Frontend](https://github.com/DMalagonH/notijs-frontend-angular)
