@@ -1,5 +1,5 @@
 # NOTIJS
-Notijs es una aplicación que permite crear notificaciones para usuarios al estilo facebook. El backend está construido en NodeJS con persistencia de datos en MongoDB. El frontend esta construido en AngularJS.
+Notijs es una aplicación que permite el control de notificaciones para usuarios al estilo facebook. El backend está construido en NodeJS con persistencia de datos en MongoDB y uso de web sockets para envío de notificaciones en tiempo real. 
 
 ## Backend
 
@@ -7,7 +7,7 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 ```shell
 	$ git clone https://github.com/DMalagonH/notijs.git
-	$ cd notijs
+	$ cd notijs-backend
 	$ npm install
 	$ cp config/params_default.js config/params.js
 ```
@@ -17,3 +17,6 @@ Notijs es una aplicación que permite crear notificaciones para usuarios al esti
 
 ### Especificaciones del socket
    https://github.com/DMalagonH/notijs/blob/master/docs/socket.md
+
+## Frontend
+    AngularJS: https://github.com/DMalagonH/notijs-frontend-angular
