@@ -6,11 +6,13 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var params = require("./config/params");
 var socketio = require("socket.io");
+var cors = require('cors');
 
 var app = module.exports = express();
 
-// parse json requests
+// Middleware
 app.use(bodyParser.json('application/json'));
+app.use(cors());
 
 
 if (!module.parent) {
