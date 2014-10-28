@@ -144,7 +144,7 @@
 
 
 ### Eliminar una notificación
-	Request [DELETE] /notice/delete
+	Request [DELETE] /notice
 	{
 		"delete":{
 			"id":		"16a54asddfs",
