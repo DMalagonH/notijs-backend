@@ -1,14 +1,14 @@
 {
   "name": "notijs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Aplicación para notificaciones de usuarios",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/DMalagonH/notijs.git"
+    "url": "git://github.com/DMalagonH/notijs-backend.git"
   },
   "keywords": [
     "notices",
@@ -18,9 +18,9 @@
   "author": "DMalagonH",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DMalagonH/notijs/issues"
+    "url": "https://github.com/DMalagonH/notijs-backend/issues"
   },
-  "homepage": "https://github.com/DMalagonH/notijs",
+  "homepage": "https://github.com/DMalagonH/notijs-backend",
   "dependencies": {
     "body-parser": "^1.6.7",
     "cors": "^2.4.2",
@@ -36,5 +36,8 @@
     "mocha": "^1.21.4",
     "supertest": "^0.13.0",
     "supertest-as-promised": "^1.0.0"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
