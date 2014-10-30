@@ -4,7 +4,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var params = require("./config/params");
+var config = require("./config/config");
 var socketio = require("socket.io");
 var cors = require('cors');
 
@@ -17,15 +17,15 @@ app.use(cors());
 
 if (!module.parent) {
 	// Conectar con MongoDB
-	mongoose.connect("mongodb://"+ params.mongodb_host +":"+ params.mongodb_port +"/"+ params.mongodb_dbname , function(err, res) {
+	mongoose.connect("mongodb://"+ config.mongodb_host +":"+ config.mongodb_port +"/"+ config.mongodb_dbname , function(err, res) {
 
 		if(err) {
 			console.log('ERROR: connecting to Database. ' + err);
 		} 
 		else {
 			// Iniciar servidor
-			var server = app.listen(params.http_port, function(){
-				console.log("Notijs listening in port", params.http_port);
+			var server = app.listen(config.http_port, function(){
+				console.log("Notijs listening in port", config.http_port);
 			});
 
             // Iniciar socket
