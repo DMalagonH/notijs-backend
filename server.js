@@ -17,7 +17,7 @@ app.use(cors());
 
 if (!module.parent) {
 	// Conectar con MongoDB
-	mongoose.connect("mongodb://"+ config.mongodb_host +":"+ config.mongodb_port +"/"+ config.mongodb_dbname , function(err, res) {
+	mongoose.connect("mongodb://"+ config.mongodb_user +":"+ config.mongodb_password +"@"+ config.mongodb_host +":"+ config.mongodb_port +"/"+ config.mongodb_dbname , function(err, res) {
 
 		if(err) {
 			console.log('ERROR: connecting to Database. ' + err);
