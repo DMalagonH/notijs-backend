@@ -9,8 +9,8 @@ Notijs es una aplicación que permite el control de notificaciones para usuarios
 	$ git clone https://github.com/DMalagonH/notijs-backend.git
 	$ cd notijs-backend
 	$ npm install
-	$ cp config/params_default.json config/params.json
 ```
+    Ingresar configuraciones en el archivo config/params.json
 
 ### Especificaciones del API
 [Ver especificaciones](https://github.com/DMalagonH/notijs-backend/blob/master/docs/api.md)
